@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoParts - Peças Automotivas</title>
+
+    <title th:text="${tituloPagina}">AutoParts - Peças Automotivas</title>
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
@@ -42,7 +43,7 @@
         <div class="banner-conteudo">
 
             <h1>
-                ENCONTRE A PEÇA<br>
+                <span th:text="${tituloPrincipal}">ENCONTRE A PEÇA</span><br>
                 <span>PARA SEU CARRO</span>
             </h1>
 
