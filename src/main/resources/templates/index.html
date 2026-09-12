@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoParts - Peças Automotivas</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="cabecalho">
+
+        <div class="logo">
+            <span class="logo-icone">⚙</span>
+            <span>AUTO<span>PARTS</span></span>
+        </div>
+
+        <div class="acoes">
+
+            <div class="pesquisar-link">
+                🔍
+                <span>Pesquisar</span>
+            </div>
+
+            <div class="login">
+                ♙
+                <span>Login</span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- BANNER PRINCIPAL -->
+    <section class="banner">
+
+        <div class="banner-conteudo">
+
+            <h1>
+                ENCONTRE A PEÇA<br>
+                <span>PARA SEU CARRO</span>
+            </h1>
+
+            <div class="barra-pesquisa">
+                <img th:src="@{/imagens/LupaCentral.png}" alt="Pesquisar">
+                <input
+                    type="text"
+                    placeholder="Pesquisar peças..."
+                >
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CATEGORIAS -->
+<section class="secao">
+
+    <h2>Categorias</h2>
+
+    <div class="categorias">
+
+        <div class="categoria">
+            <img th:src="@{/imagens/DesenhoMotor.png}" alt="Motor">
+            <h3>Motor</h3>
+        </div>
+
+        <div class="categoria">
+            <img th:src="@{/imagens/DesenhoFreios.png}" alt="Freios">
+            <h3>Freios</h3>
+        </div>
+
+        <div class="categoria">
+            <img th:src="@{/imagens/DesenhoSuspensao.png}" alt="Suspensão">
+            <h3>Suspensão</h3>
+        </div>
+
+        <div class="categoria">
+            <img th:src="@{/imagens/DesenhoEletrica.png}" alt="Elétrica">
+            <h3>Elétrica</h3>
+        </div>
+
+    </div>
+
+</section>
+
+
+    <!-- PEÇAS EM DESTAQUE -->
+    <section class="secao">
+
+        <h2>Peças em destaque</h2>
+
+        <div class="produtos">
+
+            <div class="produto">
+
+                <div class="etiqueta">Peça</div>
+
+                <div class="produto-imagem">
+                    <span>Imagem</span>
+                </div>
+
+                <h3>Alternador</h3>
+
+                <p class="preco">R$ 899,00</p>
+
+            </div>
+
+
+            <div class="produto">
+
+                <div class="etiqueta">Peça</div>
+
+                <div class="produto-imagem">
+                    <span>Imagem</span>
+                </div>
+
+                <h3>Disco de Freio</h3>
+
+                <p class="preco">R$ 349,90</p>
+
+            </div>
+
+
+            <div class="produto">
+
+                <div class="etiqueta">Peça</div>
+
+                <div class="produto-imagem">
+                    <span>Imagem</span>
+                </div>
+
+                <h3>Amortecedor</h3>
+
+                <p class="preco">R$ 279,90</p>
+
+            </div>
+
+
+            <div class="produto">
+
+                <div class="etiqueta">Peça</div>
+
+                <div class="produto-imagem">
+                    <span>Imagem</span>
+                </div>
+
+                <h3>Bateria</h3>
+
+                <p class="preco">R$ 599,90</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</body>
+
+</html>

@@ -1,0 +1,372 @@
+/* =========================
+   CONFIGURAÇÕES GERAIS
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f6f8;
+    color: #09244a;
+}
+
+
+/* =========================
+   CABEÇALHO
+========================= */
+
+.cabecalho {
+    height: 96px;
+    background-color: #031a3b;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 60px;
+}
+
+
+/* LOGO */
+
+.logo {
+    display: flex;
+    align-items: center;
+
+    font-size: 32px;
+    font-weight: bold;
+
+    color: white;
+}
+
+.logo-icone {
+    color: #087cf0;
+    font-size: 45px;
+
+    margin-right: 10px;
+}
+
+.logo span span {
+    color: #087cf0;
+}
+
+
+/* AÇÕES DO CABEÇALHO */
+
+.acoes {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+
+    color: white;
+    font-size: 18px;
+}
+
+.pesquisar-link,
+.login {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    cursor: pointer;
+}
+
+.pesquisar-link {
+    border-right: 1px solid #60718b;
+    padding-right: 30px;
+}
+
+
+/* =========================
+   BANNER
+========================= */
+
+.banner {
+    height: 375px;
+
+    background:
+        linear-gradient(
+            rgba(3, 26, 59, 0.92),
+            rgba(3, 26, 59, 0.92)
+        );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+.banner-conteudo {
+    width: 800px;
+}
+
+.banner h1 {
+    color: white;
+    font-size: 52px;
+    line-height: 1.15;
+
+    margin-bottom: 35px;
+}
+
+.banner h1 span {
+    color: #ff7200;
+}
+
+
+/* BARRA DE PESQUISA */
+
+.barra-pesquisa {
+    width: 100%;
+    height: 82px;
+
+    background-color: white;
+
+    border-radius: 18px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 28px;
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.barra-pesquisa img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+    margin-right: 18px;
+}
+
+.barra-pesquisa input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    font-size: 24px;
+}
+
+.barra-pesquisa input::placeholder {
+    color: #aaa;
+}
+
+
+/* =========================
+   SEÇÕES
+========================= */
+
+.secao {
+    padding: 35px 60px;
+}
+
+.secao h2 {
+    font-size: 28px;
+    margin-bottom: 22px;
+}
+
+
+/* =========================
+   CATEGORIAS
+========================= */
+
+.categorias {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.categoria {
+    height: 195px;
+
+    background-color: white;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 18px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    transition: 0.2s;
+}
+
+.categoria:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.categoria img {
+    width: 80px;
+    height: 80px;
+
+    object-fit: contain;
+
+    margin-bottom: 15px;
+}
+
+.categoria h3 {
+    font-size: 23px;
+}
+
+
+/* =========================
+   PRODUTOS
+========================= */
+
+.produtos {
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 20px;
+}
+
+.produto {
+    position: relative;
+
+    background-color: white;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 18px;
+
+    padding: 15px 20px 20px;
+
+    overflow: hidden;
+
+    transition: 0.2s;
+}
+
+.produto:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+
+/* ETIQUETA */
+
+.etiqueta {
+    position: absolute;
+
+    top: 15px;
+    left: 15px;
+
+    background-color: #ff7200;
+
+    color: white;
+
+    padding: 7px 12px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+}
+
+
+/* ESPAÇO DA IMAGEM */
+
+.produto-imagem {
+    height: 230px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #999;
+
+    background-color: #fafafa;
+
+    margin-bottom: 10px;
+}
+
+.produto-imagem span {
+    font-size: 18px;
+}
+
+
+/* NOME */
+
+.produto h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+
+/* PREÇO */
+
+.preco {
+    color: #087dbb;
+
+    font-size: 21px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 900px) {
+
+    .cabecalho {
+        padding: 0 25px;
+    }
+
+    .categorias,
+    .produtos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .banner-conteudo {
+        width: 90%;
+    }
+
+    .banner h1 {
+        font-size: 40px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .logo {
+        font-size: 23px;
+    }
+
+    .logo-icone {
+        font-size: 32px;
+    }
+
+    .acoes {
+        gap: 10px;
+        font-size: 14px;
+    }
+
+    .pesquisar-link {
+        display: none;
+    }
+
+    .categorias,
+    .produtos {
+        grid-template-columns: 1fr;
+    }
+
+    .secao {
+        padding: 25px;
+    }
+
+    .banner h1 {
+        font-size: 30px;
+    }
+
+}
