@@ -15,4 +15,10 @@ public class HomeController {
 
         return "index";
     }
+
+    @GetMapping("/lista")
+    public String lista(Model model) {
+
+        return "pecas/lista";
+    }
 }
