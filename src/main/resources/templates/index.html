@@ -92,75 +92,36 @@
 </section>
 
 
-    <!-- PEÇAS EM DESTAQUE -->
-    <section class="secao">
+<!-- PEÇAS EM DESTAQUE -->
+<section class="secao">
 
-        <h2>Peças em destaque</h2>
+    <h2>Peças em destaque</h2>
 
-        <div class="produtos">
+    <div class="produtos">
 
-            <div class="produto">
+        <div class="produto" th:each="peca : ${pecas}">
 
-                <div class="etiqueta">Peça</div>
-
-                <div class="produto-imagem">
-                    <span>Imagem</span>
-                </div>
-
-                <h3>Alternador</h3>
-
-                <p class="preco">R$ 899,00</p>
-
+            <div class="etiqueta" th:text="${peca.categoria}">
+                Peça
             </div>
 
-
-            <div class="produto">
-
-                <div class="etiqueta">Peça</div>
-
-                <div class="produto-imagem">
-                    <span>Imagem</span>
-                </div>
-
-                <h3>Disco de Freio</h3>
-
-                <p class="preco">R$ 349,90</p>
-
+            <div class="produto-imagem">
+                <span>Imagem</span>
             </div>
 
+            <h3 th:text="${peca.nome}">
+                Nome da peça
+            </h3>
 
-            <div class="produto">
-
-                <div class="etiqueta">Peça</div>
-
-                <div class="produto-imagem">
-                    <span>Imagem</span>
-                </div>
-
-                <h3>Amortecedor</h3>
-
-                <p class="preco">R$ 279,90</p>
-
-            </div>
-
-
-            <div class="produto">
-
-                <div class="etiqueta">Peça</div>
-
-                <div class="produto-imagem">
-                    <span>Imagem</span>
-                </div>
-
-                <h3>Bateria</h3>
-
-                <p class="preco">R$ 599,90</p>
-
-            </div>
+            <p class="preco">
+                R$ <span th:text="${peca.preco}">0,00</span>
+            </p>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 </body>
 
