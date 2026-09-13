@@ -2,13 +2,17 @@ package com.autoparts.sitepecascarro.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -16,39 +20,68 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/pecas", "/css/**", "/js/**", "/imagens/**").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
+
+                // Página inicial e arquivos públicos
+                .requestMatchers(
+                    "/",
+                    "/css/**",
+                    "/js/**",
+                    "/imagens/**"
+                ).permitAll()
+
+                // Usuário comum ou administrador podem visualizar as peças
+                .requestMatchers("/pecas")
+                .hasAnyRole("USER", "ADMIN")
+
+                // Área administrativa somente para ADMIN
+                .requestMatchers("/admin/**")
+                .hasRole("ADMIN")
+
+                // Qualquer outra rota exige login
+                .anyRequest()
+                .authenticated()
             )
-            .formLogin(form -> form.permitAll())
-            .logout(logout -> logout.permitAll());
+
+            // Login padrão do Spring Security
+            .formLogin(form -> form
+                .permitAll()
+            )
+
+            // Logout
+            .logout(logout -> logout
+                .permitAll()
+            );
 
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        //usuario / 123456 com papel USER (só visualiza)
-        //admin / admin123 com papel ADMIN (acesso total)
+
+        // Usuário comum: pode visualizar as peças
         UserDetails usuarioComum = User.builder()
             .username("usuario")
             .password(encoder.encode("123456"))
             .roles("USER")
             .build();
 
+        // Administrador: acesso à área administrativa
         UserDetails administrador = User.builder()
             .username("admin")
             .password(encoder.encode("admin123"))
             .roles("ADMIN")
             .build();
 
-        return new InMemoryUserDetailsManager(usuarioComum, administrador);
-        // Etapa de fundacao: usuarios em memoria. Depois podem vir do banco (JPA).
+        return new InMemoryUserDetailsManager(
+            usuarioComum,
+            administrador
+        );
     }
 
-    //codificador de senha
+    // Codificador das senhas
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
