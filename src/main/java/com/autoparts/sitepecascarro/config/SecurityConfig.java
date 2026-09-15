@@ -27,17 +27,18 @@ public class SecurityConfig {
                 // Página inicial e arquivos públicos
                 .requestMatchers(
                     "/",
+                    "/pecas",
                     "/css/**",
                     "/js/**",
                     "/imagens/**"
                 ).permitAll()
 
-                // Usuário comum ou administrador podem visualizar as peças
-                .requestMatchers("/pecas")
-                .hasAnyRole("USER", "ADMIN")
-
                 // Área administrativa somente para ADMIN
                 .requestMatchers("/admin/**")
+                .hasRole("ADMIN")
+
+                // Cadastro, edição e exclusão de peças: só ADMIN (RN-02)
+                .requestMatchers("/pecas/nova", "/pecas/salvar", "/pecas/editar/**", "/pecas/excluir/**")
                 .hasRole("ADMIN")
 
                 // Qualquer outra rota exige login

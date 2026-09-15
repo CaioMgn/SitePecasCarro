@@ -21,4 +21,19 @@ public class PecaService {
     }
 
     // Criar, editar e excluir entram aqui na etapa do CRUD completo.
+    public Peca salvar(Peca peca){
+        // salva peca no repositorio
+        // criar ou editar
+        return pecaRepository.save(peca);
+    }
+
+    public Peca buscarPorId(Long id){
+        //buscar a peca
+        return pecaRepository.findById(id).orElse(null);
+    }
+
+    public void excluir(Long id){
+        //excluir peca
+        pecaRepository.deleteById(id);
+    }
 }

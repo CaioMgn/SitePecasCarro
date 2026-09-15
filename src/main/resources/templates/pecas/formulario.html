@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Peça</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <header>
+        <h1>Cadastro de Peças</h1>
+    </header>
+
+    <main>
+        <!--pra onde o formulário envia os dados quando você clica em Salvar, conexao entre tela e método, envio POST-->
+        <form th:action="@{/pecas/salvar}" th:object="${peca}" method="post">
+            <input type="hidden" th:field="*{id}">
+
+            <label for="nome">Nome da Peça</label>
+            <input type="text" id="nome" th:field="*{nome}" required>
+
+            <label for="categoria">Categoria</label>
+            <input type="text" id="categoria" th:field="*{categoria}" required>
+
+            <label for="preco">Preço</label>
+            <input type="number" step="0.01" id="preco" th:field="*{preco}" required>
+
+            <button type="submit">Salvar</button>
+        </form>
+    </main>
+
+</body>
+</html>
