@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
         <main>
             <!--Esse link leva pro /pecas/nova — que bate com o @GetMapping("/pecas/nova") do seu Controller, 
             abrindo o formulário vazio.-->
-            <a th:href="@{/pecas/nova}" class="btn-novo">+ Nova Peça</a>
+            <a th:href="@{/pecas/nova}" class="btn-novo" sec:authorize="hasRole('ADMIN')">+ Nova Peça</a>
 
             <table>
                 <caption>Lista de peças cadastradas</caption>
@@ -23,7 +24,7 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Categoria</th>
                         <th scope="col">Preço</th>
-                        <th scope="col">Ações</th>
+                        <th scope="col" sec:authorize="hasRole('ADMIN')">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +32,7 @@
                         <td th:text="${peca.nome}">Exemplo</td>
                         <td th:text="${peca.categoria}">Exemplo</td>
                         <td th:text="${peca.preco}">0,00</td>
-                        <td>
+                        <td sec:authorize="hasRole('ADMIN')">
                             <a th:href="@{/pecas/editar/{id}(id=${peca.id})}">Editar</a>
                             <a th:href="@{/pecas/excluir/{id}(id=${peca.id})}" 
                             onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
