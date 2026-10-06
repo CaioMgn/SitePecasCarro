@@ -16,14 +16,16 @@ public class Peca {
     private String nome;
     private String categoria;
     private Double preco;
+    private String descricao;
 
     public Peca() {
     }
 
-    public Peca(String nome, String categoria, Double preco) {
+    public Peca(String nome, String categoria, Double preco, String descricao) {
         this.nome = nome;
         this.categoria = categoria;
         this.preco = preco;
+        this.descricao = descricao;
     }
 
     public Long getId() {
@@ -40,6 +42,14 @@ public class Peca {
 
     public Double getPreco() {
         return preco;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public void setId(Long id) {

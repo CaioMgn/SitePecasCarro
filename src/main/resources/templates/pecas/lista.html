@@ -24,6 +24,7 @@
                         <th scope="col">Nome</th>
                         <th scope="col">Categoria</th>
                         <th scope="col">Preço</th>
+                        <th scope="col">Descrição</th>
                         <th scope="col" sec:authorize="hasRole('ADMIN')">Ações</th>
                     </tr>
                 </thead>
@@ -32,6 +33,7 @@
                         <td th:text="${peca.nome}">Exemplo</td>
                         <td th:text="${peca.categoria}">Exemplo</td>
                         <td th:text="${peca.preco}">0,00</td>
+                        <td th:text="${peca.descricao}">Exemplo</td>
                         <td sec:authorize="hasRole('ADMIN')">
                             <a th:href="@{/pecas/editar/{id}(id=${peca.id})}">Editar</a>
                             <a th:href="@{/pecas/excluir/{id}(id=${peca.id})}" 

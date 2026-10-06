@@ -26,6 +26,9 @@
             <label for="preco">Preço</label>
             <input type="number" step="0.01" id="preco" th:field="*{preco}" required>
 
+            <label for="descricao">Descrição</label>
+            <textarea id="descricao" th:field="*{descricao}" required></textarea>
+            
             <button type="submit">Salvar</button>
         </form>
     </main>
