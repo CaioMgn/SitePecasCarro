@@ -1,5 +1,8 @@
 package com.autoparts.sitepecascarro.service;
 
+import java.net.PasswordAuthentication;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.autoparts.sitepecascarro.entity.Usuario;
 import com.autoparts.sitepecascarro.repository.UsuarioRepository;
@@ -8,9 +11,12 @@ import com.autoparts.sitepecascarro.repository.UsuarioRepository;
 @Service 
 public class UsuarioService {
    private final UsuarioRepository usuarioRepository;
+   private final PasswordEncoder passswordEncoder;
 
-    public UsuarioService(UsuarioService usuarioRepository){
+    public UsuarioService(UsuarioService usuarioRepository,
+                            PasswordEncoder passwordEncoder){
         this.usuarioRepository = (UsuarioRepository) usuarioRepository;
+        this.passswordEncoder = passwordEncoder;
     }
 
     public Usuario salvar(Usuario usuario){
@@ -23,6 +29,8 @@ public class UsuarioService {
         if (usuarioRepository.existsById(usuario.getCpf())) {
             throw new IllegalArgumentException("CPF já cadastrado.");
         }
+        usuario.setSenha(passswordEncoder.encode(usuario.getSenha()));
+
         return usuarioRepository.save(usuario);
     }
 
