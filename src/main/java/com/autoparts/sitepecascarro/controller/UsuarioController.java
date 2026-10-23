@@ -47,7 +47,7 @@ public class UsuarioController {
 
             // Mensagem de sucesso enviada após o redirecionamento
             redirectAttributes.addFlashAttribute("sucesso", "Cadastro realizado com sucesso! Faça seu login.");
-            return "redirect:/login";
+            return "redirect:/admin/usuarios";
 
         } catch (IllegalArgumentException e) {
             // Se a Service lançar exceção (ex: "CPF inválido."), captura a mensagem

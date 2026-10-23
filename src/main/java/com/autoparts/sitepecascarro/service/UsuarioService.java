@@ -40,7 +40,7 @@ public class UsuarioService {
         // 5\. Garantia de perfil: se vier nulo (cadastro público), atribui perfil de
         // Usuário comum
         if (usuario.getRole() == null) {
-            usuario.setRole(Role.USUARIO);
+            usuario.setRole(Role.USER);
         }
         // 6\. Criptografia da senha antes da persistência
         usuario.setSenha(passswordEncoder.encode(usuario.getSenha()));

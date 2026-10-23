@@ -8,24 +8,21 @@ import com.autoparts.sitepecascarro.entity.Role;
 import com.autoparts.sitepecascarro.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
-@Configuration 
+@Configuration
 public class DataInitializer {
-    
-    @Bean 
-    public  CommandLineRunner inicializarusuario(
-        UsuarioRepository usuarioRepository,
-        PasswordEncoder passwordEncoder
-    ){
+
+    @Bean
+    public CommandLineRunner inicializarusuario(
+            UsuarioRepository usuarioRepository,
+            PasswordEncoder passwordEncoder) {
         return args -> {
-            if(usuarioRepository.count() == 0){
+            if (usuarioRepository.count() == 0) {
                 Usuario admin = new Usuario(
-                    "00000000191",
-                    "admin@autoparts.com",
-                    passwordEncoder.encode("admin123"),
-                    Role.ADMIN,
-                    "admin"
-                );
+                        "00000000191",
+                        "admin@autoparts.com",
+                        passwordEncoder.encode("admin123"),
+                        Role.ADMIN,
+                        "admin");
 
                 usuarioRepository.save(admin);
             }
