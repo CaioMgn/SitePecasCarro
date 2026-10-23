@@ -22,39 +22,37 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> auth
 
-                // Página inicial e arquivos públicos
-                .requestMatchers(
-                    "/",
-                    "/pecas",
-                    "/css/**",
-                    "/js/**",
-                    "/imagens/**"
-                ).permitAll()
+                        // Página inicial e arquivos públicos
+                        .requestMatchers(
+                                "/",
+                                "/pecas",
+                                "/css/**",
+                                "/js/**",
+                                "/imagens/**",
+                                "/cadastrar")
+                        .permitAll()
 
-                // Área administrativa somente para ADMIN
-                .requestMatchers("/admin/**")
-                .hasRole("ADMIN")
+                        // Área administrativa somente para ADMIN
+                        .requestMatchers("/admin/**")
+                        .hasRole("ADMIN")
 
-                // Cadastro, edição e exclusão de peças: só ADMIN (RN-02)
-                .requestMatchers("/pecas/nova", "/pecas/salvar", "/pecas/editar/**", "/pecas/excluir/**")
-                .hasRole("ADMIN")
+                        // Cadastro, edição e exclusão de peças: só ADMIN (RN-02)
+                        .requestMatchers("/pecas/nova", "/pecas/salvar", "/pecas/editar/**", "/pecas/excluir/**")
+                        .hasRole("ADMIN")
 
-                // Qualquer outra rota exige login
-                .anyRequest()
-                .authenticated()
-            )
+                        // Qualquer outra rota exige login
+                        .anyRequest()
+                        .authenticated())
 
-            // Login padrão do Spring Security
-            .formLogin(form -> form
-                .permitAll()
-            )
+                // Login padrão do Spring Security
+                .formLogin(form -> form
+                        .permitAll())
 
-            // Logout
-            .logout(logout -> logout
-                .permitAll()
-            );
+                // Logout
+                .logout(logout -> logout
+                        .permitAll());
 
         return http.build();
     }
@@ -64,22 +62,21 @@ public class SecurityConfig {
 
         // Usuário comum: pode visualizar as peças
         UserDetails usuarioComum = User.builder()
-            .username("usuario")
-            .password(encoder.encode("123456"))
-            .roles("USER")
-            .build();
+                .username("usuario")
+                .password(encoder.encode("123456"))
+                .roles("USER")
+                .build();
 
         // Administrador: acesso à área administrativa
         UserDetails administrador = User.builder()
-            .username("admin")
-            .password(encoder.encode("admin123"))
-            .roles("ADMIN")
-            .build();
+                .username("admin")
+                .password(encoder.encode("admin123"))
+                .roles("ADMIN")
+                .build();
 
         return new InMemoryUserDetailsManager(
-            usuarioComum,
-            administrador
-        );
+                usuarioComum,
+                administrador);
     }
 
     // Codificador das senhas

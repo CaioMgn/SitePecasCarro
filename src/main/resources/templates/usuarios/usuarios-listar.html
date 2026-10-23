@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Usuários - AutoParts Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <header>
+        <h1>Painel Administrativo - Usuários Cadastrados</h1>
+        <p><a th:href="@{/cadastrar}">+ Cadastrar Novo Usuário</a> | <a th:href="@{/pecas}">Ir para Peças</a></p>
+    </header>
+
+    <main>
+        <!-- Mensagens de Feedback (Sucesso / Erro ao Excluir) -->
+        <div th:if="${sucesso != null}" style="color: green; font-weight: bold; margin-bottom: 15px;">
+            <p th:text="${sucesso}"></p>
+        </div>
+        <div th:if="${erro != null}" style="color: red; font-weight: bold; margin-bottom: 15px;">
+            <p th:text="${erro}"></p>
+        </div>
+
+        <!-- Tabela de Listagem de Usuários -->
+        <table border="1" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+            <thead>
+                <tr style="background-color: #f2f2f2; text-align: left;">
+                    <th>Username</th>
+                    <th>E-mail</th>
+                    <th>CPF</th>
+                    <th>Perfil (Role)</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- O th:each percorre a lista 'usuarios' enviada pelo Controller -->
+                <tr th:each="u : ${usuarios}">
+                    <td th:text="${u.username}">admin</td>
+                    <td th:text="${u.email}">admin@autoparts.com</td>
+                    <td th:text="${u.cpf}">123.456.789-00</td>
+                    <td th:text="${u.role}">ADMIN</td>
+                    <td>
+                        <!-- Link dinâmico para exclusão pelo CPF -->
+                        <a th:href="@{/admin/usuarios/excluir/{cpf}(cpf=${u.cpf})}" 
+                           onclick="return confirm('Tem certeza que deseja excluir este usuário?');"
+                           style="color: red; text-decoration: none; font-weight: bold;">
+                           Excluir
+                        </a>
+                    </td>
+                </tr>
+
+                <!-- Mensagem exibida caso a lista de usuários esteja vazia -->
+                <tr th:if="${#lists.isEmpty(usuarios)}">
+                    <td colspan="5" style="text-align: center;">Nenhum usuário cadastrado no sistema.</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+</body>
+</html>
