@@ -31,6 +31,12 @@
 	</properties>
 
 	<dependencies>
+		<!-- Login com Google (OAuth2). No Spring Boot 4 o starter mudou de nome -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security-oauth2-client</artifactId>
+		</dependency>
+
 		<!-- Web MVC -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

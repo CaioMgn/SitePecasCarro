@@ -10,11 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.autoparts.sitepecascarro.service.GoogleUsuarioService;
+
 @Configuration
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, GoogleUsuarioService googleUsuarioService) throws Exception {
 
         http
             .authorizeHttpRequests(auth -> auth
@@ -52,6 +54,15 @@ public class SecurityConfig {
                 .usernameParameter("email")
                 .defaultSuccessUrl("/", false)
                 .permitAll()
+            )
+
+            // Login com Google, usando a mesma página de login
+            .oauth2Login(oauth -> oauth
+                .loginPage("/login")
+                .userInfoEndpoint(info -> info
+                    .oidcUserService(googleUsuarioService)
+                )
+                .defaultSuccessUrl("/", false)
             )
 
             // Logout volta pro login com aviso
