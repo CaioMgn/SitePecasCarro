@@ -68,6 +68,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Console web do H2 (no Spring Boot 4 é um módulo separado) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-h2console</artifactId>
+		</dependency>
+
 		<!-- DevTools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -4,14 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -41,6 +36,10 @@ public class SecurityConfig {
                 .requestMatchers("/pecas/nova", "/pecas/salvar", "/pecas/editar/**", "/pecas/excluir/**")
                 .hasRole("ADMIN")
 
+                // Console do banco: só ADMIN
+                .requestMatchers("/h2-console/**")
+                .hasRole("ADMIN")
+
                 // Qualquer outra rota exige login
                 .anyRequest()
                 .authenticated()
@@ -54,32 +53,19 @@ public class SecurityConfig {
             // Logout
             .logout(logout -> logout
                 .permitAll()
+            )
+            
+            // O console do H2 envia formulários sem token CSRF
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/h2-console/**")
+            )
+
+            // O console do H2 roda dentro de frames (iframes)
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.sameOrigin())
             );
 
         return http.build();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-
-        // Usuário comum: pode visualizar as peças
-        UserDetails usuarioComum = User.builder()
-            .username("usuario")
-            .password(encoder.encode("123456"))
-            .roles("USER")
-            .build();
-
-        // Administrador: acesso à área administrativa
-        UserDetails administrador = User.builder()
-            .username("admin")
-            .password(encoder.encode("admin123"))
-            .roles("ADMIN")
-            .build();
-
-        return new InMemoryUserDetailsManager(
-            usuarioComum,
-            administrador
-        );
     }
 
     // Codificador das senhas
