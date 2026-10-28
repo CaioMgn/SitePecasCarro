@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar conta - AutoParts</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <main class="pagina-login">
+        <section class="card-login" aria-labelledby="titulo-cadastro">
+            <h1 id="titulo-cadastro">Criar uma conta</h1>
+
+            <p class="alerta-erro" role="alert" th:if="${erro}" th:text="${erro}">
+                Mensagem de erro
+            </p>
+
+            <form th:action="@{/cadastro}" th:object="${form}" method="post">
+                <label for="nome">Nome</label>
+                <input type="text" id="nome" th:field="*{nome}"
+                       autocomplete="name" required>
+
+                <label for="email">E-mail</label>
+                <input type="email" id="email" th:field="*{email}"
+                       autocomplete="email" required>
+
+                <label for="senha">Senha (mínimo 6 caracteres)</label>
+                <input type="password" id="senha" th:field="*{senha}"
+                       autocomplete="new-password" minlength="6" required>
+
+                <button type="submit">Criar conta</button>
+            </form>
+
+            <p>Já tem uma conta? <a th:href="@{/login}">Entrar</a></p>
+        </section>
+    </main>
+</body>
+</html>
