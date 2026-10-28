@@ -10,6 +10,15 @@
     <body>
         <header>
             <h1>Catálogo de Peças</h1>
+
+            <div sec:authorize="isAuthenticated()">
+                <span>Olá, <span sec:authentication="name">usuário</span></span>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Sair</button>
+                </form>
+            </div>
+
+            <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Entrar</a>
         </header>
 
         <main>

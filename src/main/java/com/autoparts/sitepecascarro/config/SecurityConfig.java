@@ -45,13 +45,17 @@ public class SecurityConfig {
                 .authenticated()
             )
 
-            // Login padrão do Spring Security
+            // Tela de login própria
             .formLogin(form -> form
+                .loginPage("/login")
+                .usernameParameter("email")
+                .defaultSuccessUrl("/", false)
                 .permitAll()
             )
 
-            // Logout
+            // Logout volta pro login com aviso
             .logout(logout -> logout
+                .logoutSuccessUrl("/login?logout")
                 .permitAll()
             )
             
