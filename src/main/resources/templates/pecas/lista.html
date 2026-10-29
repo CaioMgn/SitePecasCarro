@@ -21,36 +21,58 @@
             <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Entrar</a>
         </header>
 
-        <main>
+        <main class="secao">
             <!--Esse link leva pro /pecas/nova — que bate com o @GetMapping("/pecas/nova") do seu Controller, 
             abrindo o formulário vazio.-->
             <a th:href="@{/pecas/nova}" class="btn-novo" sec:authorize="hasRole('ADMIN')">+ Nova Peça</a>
 
-            <table>
-                <caption>Lista de peças cadastradas</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Categoria</th>
-                        <th scope="col">Preço</th>
-                        <th scope="col">Descrição</th>
-                        <th scope="col" sec:authorize="hasRole('ADMIN')">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="peca : ${pecas}">
-                        <td th:text="${peca.nome}">Exemplo</td>
-                        <td th:text="${peca.categoria}">Exemplo</td>
-                        <td th:text="${peca.preco}">0,00</td>
-                        <td th:text="${peca.descricao}">Exemplo</td>
-                        <td sec:authorize="hasRole('ADMIN')">
-                            <a th:href="@{/pecas/editar/{id}(id=${peca.id})}">Editar</a>
-                            <a th:href="@{/pecas/excluir/{id}(id=${peca.id})}" 
-                            onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <!-- buscar não altera dados: GET deixa a busca na URL -->
+            <form th:action="@{/pecas}" method="get" role="search" class="filtros">
+                <label for="busca">Pesquisar</label>
+                <input type="search" id="busca" name="busca" th:value="${busca}">
+
+                <label for="categoria">Categoria</label>
+                <select id="categoria" name="categoria">
+                    <option value="">Todas</option>
+                    <option th:each="c : ${categorias}" th:value="${c}" th:text="${c}"
+                            th:selected="${c == categoriaSelecionada}">Motor</option>
+                </select>
+
+                <label for="marca">Marca</label>
+                <select id="marca" name="marca">
+                    <option value="">Todas</option>
+                    <option th:each="m : ${marcas}" th:value="${m}" th:text="${m}"
+                            th:selected="${m == marcaSelecionada}">Bosch</option>
+                </select>
+
+                <label for="precoMax">Preço máximo (R$)</label>
+                <input type="number" id="precoMax" name="precoMax" min="0" step="0.01" th:value="${precoMax}">
+
+                <button type="submit">Buscar</button>
+            </form>
+
+            <p th:if="${#lists.isEmpty(pecas)}">Nenhuma peça encontrada</p>
+
+            <div class="produtos" th:unless="${#lists.isEmpty(pecas)}">
+                <!-- cada card leva para o detalhe da peça -->
+                <a class="produto" th:each="peca : ${pecas}"
+                   th:href="@{/pecas/detalhe/{id}(id=${peca.id})}">
+
+                    <div class="etiqueta" th:text="${peca.categoria}">Peça</div>
+
+                    <div class="produto-imagem">
+                        <img th:if="${!#strings.isEmpty(peca.imagem)}"
+                             th:src="@{${peca.imagem}}" th:alt="${peca.nome}">
+                        <span th:if="${#strings.isEmpty(peca.imagem)}">Imagem</span>
+                    </div>
+
+                    <h3 th:text="${peca.nome}">Nome da peça</h3>
+
+                    <p class="preco">
+                        R$ <span th:text="${#numbers.formatDecimal(peca.preco, 1, 'POINT', 2, 'COMMA')}">0,00</span>
+                    </p>
+                </a>
+            </div>
         </main>
     </body>
 </html>
