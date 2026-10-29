@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="|${peca.nome} - AutoParts|">Peça - AutoParts</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header>
+            <a th:href="@{/pecas}">Voltar ao catálogo</a>
+
+            <div sec:authorize="isAuthenticated()">
+                <span>Olá, <span sec:authentication="name">usuário</span></span>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Sair</button>
+                </form>
+            </div>
+
+            <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Entrar</a>
+        </header>
+
+        <main class="secao detalhe-peca">
+            <div class="produto-imagem">
+                <img th:if="${!#strings.isEmpty(peca.imagem)}"
+                     th:src="@{${peca.imagem}}" th:alt="${peca.nome}">
+                <span th:if="${#strings.isEmpty(peca.imagem)}">Imagem</span>
+            </div>
+
+            <section aria-labelledby="nome-peca">
+                <p th:text="${peca.categoria}">Freios</p>
+                <h1 id="nome-peca" th:text="${peca.nome}">Nome da peça</h1>
+
+                <p class="preco">
+                    R$ <span th:text="${#numbers.formatDecimal(peca.preco, 1, 'POINT', 2, 'COMMA')}">0,00</span>
+                </p>
+
+                <p th:text="${peca.descricao}">Descrição da peça</p>
+
+                <dl>
+                    <dt>Marca</dt>
+                    <dd th:text="${#strings.isEmpty(peca.marca)} ? 'Não informada' : ${peca.marca}">Bosch</dd>
+
+                    <dt>Compatibilidade</dt>
+                    <dd th:text="${#strings.isEmpty(peca.compatibilidade)} ? 'Não informada' : ${peca.compatibilidade}">Gol 1.0</dd>
+
+                    <dt>Estoque</dt>
+                    <dd th:text="${peca.estoque == null or peca.estoque == 0} ? 'Sem estoque' : |${peca.estoque} em estoque|">10 em estoque</dd>
+                </dl>
+
+                <!-- só logado compra: o visitante que clicar vai para o login -->
+                <form th:action="@{/carrinho/adicionar/{id}(id=${peca.id})}" method="post">
+                    <button type="submit" th:disabled="${peca.estoque == null or peca.estoque == 0}">
+                        Adicionar ao carrinho
+                    </button>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>
