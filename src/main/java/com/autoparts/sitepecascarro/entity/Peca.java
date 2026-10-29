@@ -17,6 +17,10 @@ public class Peca {
     private String categoria;
     private Double preco;
     private String descricao;
+    private String marca;
+    private String compatibilidade;
+    private Integer estoque;
+    private String imagem; // caminho da foto, ex.: /imagens/pecas/alternador.png
 
     public Peca() {
     }
@@ -66,6 +70,38 @@ public class Peca {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getCompatibilidade() {
+        return compatibilidade;
+    }
+
+    public void setCompatibilidade(String compatibilidade) {
+        this.compatibilidade = compatibilidade;
+    }
+
+    public Integer getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 
     

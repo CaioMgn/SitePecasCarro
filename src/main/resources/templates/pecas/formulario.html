@@ -28,6 +28,18 @@
 
             <label for="descricao">Descrição</label>
             <textarea id="descricao" th:field="*{descricao}" required></textarea>
+
+            <label for="marca">Marca</label>
+            <input type="text" id="marca" th:field="*{marca}">
+
+            <label for="compatibilidade">Compatibilidade</label>
+            <input type="text" id="compatibilidade" th:field="*{compatibilidade}">
+
+            <label for="estoque">Estoque</label>
+            <input type="number" min="0" id="estoque" th:field="*{estoque}">
+
+            <label for="imagem">Imagem (caminho, ex.: /imagens/pecas/alternador.png)</label>
+            <input type="text" id="imagem" th:field="*{imagem}">
             
             <button type="submit">Salvar</button>
         </form>
