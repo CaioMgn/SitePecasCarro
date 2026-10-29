@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<header th:fragment="cabecalho" class="cabecalho">
+    <a href="#conteudo" class="pular-link">Pular para o conteúdo</a>
+
+    <a th:href="@{/}" class="logo" aria-label="AutoParts, página inicial">
+        <span class="logo-icone" aria-hidden="true">⚙</span>
+        <span>AUTO<span>PARTS</span></span>
+    </a>
+
+    <nav class="acoes" aria-label="Principal">
+        <a th:href="@{/pecas}" class="pesquisar-link">
+            <img th:src="@{/imagens/LupaTopoBranca.png}" alt="">
+            <span>Pesquisar</span>
+        </a>
+
+        <a th:href="@{/carrinho}" sec:authorize="isAuthenticated()">Carrinho</a>
+        <a th:href="@{/admin}" sec:authorize="hasRole('ADMIN')">Painel</a>
+
+        <a th:href="@{/login}" class="login" sec:authorize="!isAuthenticated()">
+            <img th:src="@{/imagens/Login.png}" alt="">
+            <span>Entrar</span>
+        </a>
+
+        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+            <button type="submit">Sair</button>
+        </form>
+    </nav>
+</header>
+
+<footer th:fragment="rodape" class="rodape">
+    <p>© 2026 AutoParts · Projeto acadêmico UFMS</p>
+</footer>
+
+</body>
+</html>
