@@ -13,115 +13,97 @@
 <body>
 
     <!-- CABEÇALHO -->
-    <header class="cabecalho">
+    <header th:replace="~{fragmentos :: cabecalho}"></header>
 
-        <div class="logo">
-            <span class="logo-icone">⚙</span>
-            <span>AUTO<span>PARTS</span></span>
-        </div>
+    <main id="conteudo">
+    
+        <!-- BANNER PRINCIPAL -->
+        <section class="banner">
 
-        <div class="acoes">
+            <div class="banner-conteudo">
 
-            <div class="pesquisar-link">
-                <img th:src="@{/imagens/LupaTopoBranca.png}" alt="Pesquisar">
-                <span>Pesquisar</span>
+                <h1>
+                    <span th:text="${tituloPrincipal}">ENCONTRE A PEÇA</span><br>
+                    <span>PARA SEU CARRO</span>
+                </h1>
+
+                <form th:action="@{/pecas}" method="get" role="search" class="barra-pesquisa">
+                <img th:src="@{/imagens/LupaCentral.png}" alt="">
+                <label for="busca-home" class="sr-only">Pesquisar peças</label>
+                <input type="search" id="busca-home" name="busca" placeholder="Pesquisar peças...">
+                </form>
+
             </div>
 
-            <div class="login">
-                <img th:src="@{/imagens/Login.png}" alt="Login">
-                <span>Login</span>
-            </div>
-
-        </div>
-
-    </header>
+        </section>
 
 
-    <!-- BANNER PRINCIPAL -->
-    <section class="banner">
-
-        <div class="banner-conteudo">
-
-            <h1>
-                <span th:text="${tituloPrincipal}">ENCONTRE A PEÇA</span><br>
-                <span>PARA SEU CARRO</span>
-            </h1>
-
-            <div class="barra-pesquisa">
-                <img th:src="@{/imagens/LupaCentral.png}" alt="Pesquisar">
-                <input
-                    type="text"
-                    placeholder="Pesquisar peças..."
-                >
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- CATEGORIAS -->
+        <!-- CATEGORIAS -->
 <section class="secao">
 
     <h2>Categorias</h2>
 
     <div class="categorias">
 
-        <div class="categoria">
-            <img th:src="@{/imagens/DesenhoMotor.png}" alt="Motor">
+        <a class="categoria" th:href="@{/pecas(categoria='Motor')}">
+            <img th:src="@{/imagens/DesenhoMotor.png}" alt="">
             <h3>Motor</h3>
-        </div>
+        </a>
 
-        <div class="categoria">
-            <img th:src="@{/imagens/DesenhoFreios.png}" alt="Freios">
+        <a class="categoria" th:href="@{/pecas(categoria='Freios')}">
+            <img th:src="@{/imagens/DesenhoFreios.png}" alt="">
             <h3>Freios</h3>
-        </div>
+        </a>
 
-        <div class="categoria">
-            <img th:src="@{/imagens/DesenhoSuspensao.png}" alt="Suspensão">
+        <a class="categoria" th:href="@{/pecas(categoria='Suspensao')}">
+            <img th:src="@{/imagens/DesenhoSuspensao.png}" alt="">
             <h3>Suspensão</h3>
-        </div>
+        </a>
 
-        <div class="categoria">
-            <img th:src="@{/imagens/DesenhoEletrica.png}" alt="Elétrica">
+        <a class="categoria" th:href="@{/pecas(categoria='Eletrica')}">
+            <img th:src="@{/imagens/DesenhoEletrica.png}" alt="">
             <h3>Elétrica</h3>
-        </div>
+        </a>
 
     </div>
 
 </section>
 
 
-<!-- PEÇAS EM DESTAQUE -->
-<section class="secao">
+        <!-- PEÇAS EM DESTAQUE -->
+        <section class="secao">
 
-    <h2>Peças em destaque</h2>
+            <h2>Peças em destaque</h2>
 
-    <div class="produtos">
+            <div class="produtos">
 
-        <div class="produto" th:each="peca : ${pecas}">
+                <div class="produto" th:each="peca : ${pecas}">
 
-            <div class="etiqueta" th:text="${peca.categoria}">
-                Peça
+                    <div class="etiqueta" th:text="${peca.categoria}">
+                        Peça
+                    </div>
+
+                    <div class="produto-imagem">
+                        <span>Imagem</span>
+                    </div>
+
+                    <h3 th:text="${peca.nome}">
+                        Nome da peça
+                    </h3>
+
+                    <p class="preco">
+                        R$ <span th:text="${peca.preco}">0,00</span>
+                    </p>
+
+                </div>
+
             </div>
 
-            <div class="produto-imagem">
-                <span>Imagem</span>
-            </div>
+        </section>
+    </main>
 
-            <h3 th:text="${peca.nome}">
-                Nome da peça
-            </h3>
-
-            <p class="preco">
-                R$ <span th:text="${peca.preco}">0,00</span>
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
+    <footer th:replace="~{fragmentos :: rodape}"></footer>
+    
 
 </body>
 
