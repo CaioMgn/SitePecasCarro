@@ -8,20 +8,12 @@
         <link rel="stylesheet" th:href="@{/css/style.css}">
     </head>
     <body>
-        <header>
+        <header th:replace="~{fragmentos :: cabecalho}"></header>
+
+        <main id="conteudo" class="secao">
+
             <h1>Catálogo de Peças</h1>
 
-            <div sec:authorize="isAuthenticated()">
-                <span>Olá, <span sec:authentication="name">usuário</span></span>
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit">Sair</button>
-                </form>
-            </div>
-
-            <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Entrar</a>
-        </header>
-
-        <main class="secao">
             <!--Esse link leva pro /pecas/nova — que bate com o @GetMapping("/pecas/nova") do seu Controller, 
             abrindo o formulário vazio.-->
             <a th:href="@{/pecas/nova}" class="btn-novo" sec:authorize="hasRole('ADMIN')">+ Nova Peça</a>
@@ -66,7 +58,7 @@
                         <span th:if="${#strings.isEmpty(peca.imagem)}">Imagem</span>
                     </div>
 
-                    <h3 th:text="${peca.nome}">Nome da peça</h3>
+                    <h2 th:text="${peca.nome}">Nome da peça</h2>
 
                     <p class="preco">
                         R$ <span th:text="${#numbers.formatDecimal(peca.preco, 1, 'POINT', 2, 'COMMA')}">0,00</span>
@@ -74,5 +66,7 @@
                 </a>
             </div>
         </main>
+
+        <footer th:replace="~{fragmentos :: rodape}"></footer>
     </body>
 </html>

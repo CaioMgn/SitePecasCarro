@@ -8,11 +8,10 @@
 </head>
 <body>
 
-    <header>
-        <h1>Cadastro de Peças</h1>
-    </header>
+    <header th:replace="~{fragmentos :: cabecalho}"></header>
 
-    <main>
+    <main id="conteudo">
+        <h1>Cadastro de Peças</h1>
         <!--pra onde o formulário envia os dados quando você clica em Salvar, conexao entre tela e método, envio POST-->
         <form th:action="@{/pecas/salvar}" th:object="${peca}" method="post">
             <input type="hidden" th:field="*{id}">
@@ -45,5 +44,7 @@
         </form>
     </main>
 
+    <footer th:replace="~{fragmentos :: rodape}"></footer>
 </body>
+
 </html>

@@ -8,20 +8,12 @@
         <link rel="stylesheet" th:href="@{/css/style.css}">
     </head>
     <body>
-        <header>
+        <header th:replace="~{fragmentos :: cabecalho}"></header>
+
+        <main id="conteudo" class="secao detalhe-peca">
+
             <a th:href="@{/pecas}">Voltar ao catálogo</a>
 
-            <div sec:authorize="isAuthenticated()">
-                <span>Olá, <span sec:authentication="name">usuário</span></span>
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit">Sair</button>
-                </form>
-            </div>
-
-            <a th:href="@{/login}" sec:authorize="!isAuthenticated()">Entrar</a>
-        </header>
-
-        <main class="secao detalhe-peca">
             <div class="produto-imagem">
                 <img th:if="${!#strings.isEmpty(peca.imagem)}"
                      th:src="@{${peca.imagem}}" th:alt="${peca.nome}">
@@ -57,5 +49,9 @@
                 </form>
             </section>
         </main>
+        <footer th:replace="~{fragmentos :: rodape}"></footer>
     </body>
+
+    
+
 </html>
