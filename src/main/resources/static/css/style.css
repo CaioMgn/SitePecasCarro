@@ -180,13 +180,13 @@ body {
     width: 100%;
 
     border: none;
-    /* outline: none removido para garantir foco visível */
+    /* outline removido para garantir foco visível via teclado */
 
     font-size: 24px;
 }
 
 .barra-pesquisa input::placeholder {
-    color: #aaa;
+    color: #6b7280; /* Contraste corrigido (WCAG AA) */
 }
 
 
@@ -298,7 +298,7 @@ a.categoria {
     top: 15px;
     left: 15px;
 
-    background-color: #ff7200;
+    background-color: #c2410c; /* Contraste corrigido (WCAG AA) */
 
     color: white;
 
@@ -319,7 +319,7 @@ a.categoria {
     justify-content: center;
     align-items: center;
 
-    color: #999;
+    color: #6b7280; /* Contraste corrigido (WCAG AA) */
 
     background-color: #fafafa;
 
@@ -545,6 +545,18 @@ a.produto {
 
     .banner h1 {
         font-size: 30px;
+    }
+
+    .cabecalho {
+        height: auto;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 16px 25px;
+    }
+
+    .filtros {
+        flex-direction: column;
+        align-items: stretch;
     }
 
 }
