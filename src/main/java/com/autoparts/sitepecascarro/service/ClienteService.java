@@ -5,6 +5,7 @@ import com.autoparts.sitepecascarro.entity.Papel;
 import com.autoparts.sitepecascarro.entity.Usuario;
 import com.autoparts.sitepecascarro.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import com.autoparts.sitepecascarro.repository.PedidoRepository;
 
 import java.util.List;
 
@@ -12,9 +13,11 @@ import java.util.List;
 public class ClienteService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PedidoRepository pedidoRepository;
 
-    public ClienteService(UsuarioRepository usuarioRepository) {
+    public ClienteService(UsuarioRepository usuarioRepository, PedidoRepository pedidoRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.pedidoRepository = pedidoRepository;
     }
 
     public List<ClienteResumo> listarClientes() {
@@ -28,9 +31,7 @@ public class ClienteService {
                 ? usuario.getDataCadastro().getYear()
                 : 0;
 
-        // ENCAIXE 1: quando o Caio subir o Pedido, trocar o 0 por
-        // pedidoRepository.countByCliente(usuario)
-        long pedidos = 0;
+        long pedidos = pedidoRepository.countByCliente(usuario);
 
         return new ClienteResumo(usuario.getNome(), usuario.getEmail(), ano, pedidos);
     }
