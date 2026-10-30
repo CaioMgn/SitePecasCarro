@@ -14,6 +14,11 @@ public class AdminClienteController {
         this.clienteService = clienteService;
     }
 
+    @GetMapping("/admin")
+    public String painel() {
+        return "admin/index";
+    }
+
     @GetMapping("/admin/clientes")
     public String listar(Model model) {
         model.addAttribute("clientes", clienteService.listarClientes());

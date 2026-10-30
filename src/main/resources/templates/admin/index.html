@@ -1,0 +1,151 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AutoParts - Painel Administrativo</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <style>
+        .painel-admin {
+            padding: 45px 60px;
+            min-height: 65vh;
+        }
+
+        .painel-titulo {
+            font-size: 32px;
+            color: #09244a;
+            margin-bottom: 10px;
+        }
+
+        .painel-descricao {
+            color: #60718b;
+            font-size: 17px;
+            margin-bottom: 35px;
+        }
+
+        .painel-cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+        }
+
+        .painel-card {
+            background: white;
+            border: 1px solid #e5e5e5;
+            border-top: 5px solid #087cf0;
+            border-radius: 18px;
+            padding: 30px;
+            transition: 0.2s;
+        }
+
+        .painel-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .painel-card h2 {
+            color: #031a3b;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .painel-card p {
+            color: #60718b;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .painel-botao {
+            display: inline-block;
+            background: #087cf0;
+            color: white;
+            text-decoration: none;
+            padding: 13px 22px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .painel-botao:hover {
+            background: #031a3b;
+        }
+
+        .painel-card.pedidos {
+            border-top-color: #ff7200;
+        }
+
+        .painel-card.pedidos .painel-botao {
+            background: #ff7200;
+        }
+
+        .painel-card.pedidos .painel-botao:hover {
+            background: #c2410c;
+        }
+
+        @media (max-width: 700px) {
+            .painel-admin {
+                padding: 30px 25px;
+            }
+
+            .painel-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header th:replace="~{fragmentos :: cabecalho}"></header>
+
+    <main id="conteudo" class="painel-admin">
+
+        <h1 class="painel-titulo">Painel Administrativo</h1>
+
+        <p class="painel-descricao">
+            Gerencie os clientes e pedidos da AutoParts.
+        </p>
+
+        <section class="painel-cards">
+
+            <article class="painel-card">
+                <h2>Clientes</h2>
+
+                <p>
+                    Consulte os clientes cadastrados e acompanhe
+                    as informações dos usuários da plataforma.
+                </p>
+
+                <a th:href="@{/admin/clientes}" class="painel-botao">
+                    Acessar clientes
+                </a>
+            </article>
+
+            <article class="painel-card pedidos">
+                <h2>Pedidos</h2>
+
+                <p>
+                    Consulte os pedidos realizados e gerencie
+                    os status das compras.
+                </p>
+
+                <a th:href="@{/admin/pedidos}" class="painel-botao">
+                    Acessar pedidos
+                </a>
+            </article>
+
+        </section>
+
+    </main>
+
+    <footer th:replace="~{fragmentos :: rodape}"></footer>
+
+</body>
+</html>
+```

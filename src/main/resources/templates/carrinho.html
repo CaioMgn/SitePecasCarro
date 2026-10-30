@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu carrinho - AutoParts</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .carrinho-container{max-width:1050px;margin:40px auto;padding:0 20px}.mensagem{padding:12px 16px;border-radius:8px;margin:14px 0}.sucesso{background:#e7f8eb;color:#14532d}.erro{background:#fff0f0;color:#991b1b}.tabela-carrinho{width:100%;border-collapse:collapse;margin:24px 0}.tabela-carrinho th,.tabela-carrinho td{padding:14px;text-align:left;border-bottom:1px solid #ddd}.acoes-item{display:flex;gap:8px;align-items:center}.acoes-item input{width:70px;padding:8px}.botao{display:inline-block;padding:10px 16px;border:0;border-radius:7px;cursor:pointer;text-decoration:none}.botao-principal{background:#c2410c;color:#fff}.botao-secundario{background:#e5e7eb;color:#111827}.total-carrinho{text-align:right;font-size:1.25rem;font-weight:bold;margin:20px 0}.vazio{padding:30px;background:#f5f5f5;border-radius:10px}
+        @media(max-width:650px){.tabela-carrinho,.tabela-carrinho tbody,.tabela-carrinho tr,.tabela-carrinho td{display:block;width:100%;box-sizing:border-box}.tabela-carrinho thead{display:none}.tabela-carrinho tr{padding:12px 0}.tabela-carrinho td{border:0;padding:6px}}
+    </style>
+</head>
+<body>
+<header th:replace="~{fragmentos :: cabecalho}"></header>
+<main id="conteudo" class="carrinho-container">
+    <h1>Meu carrinho</h1>
+    <p class="mensagem sucesso" role="status" th:if="${sucesso}" th:text="${sucesso}"></p>
+    <p class="mensagem erro" role="alert" th:if="${erro}" th:text="${erro}"></p>
+
+    <section class="vazio" th:if="${#lists.isEmpty(itens)}">
+        <h2>Seu carrinho está vazio</h2>
+        <p>Encontre as peças de que você precisa no nosso catálogo.</p>
+        <a class="botao botao-principal" th:href="@{/pecas}">Ver catálogo</a>
+    </section>
+
+    <section th:unless="${#lists.isEmpty(itens)}" aria-label="Itens do carrinho">
+        <table class="tabela-carrinho">
+            <thead><tr><th>Peça</th><th>Preço unitário</th><th>Quantidade</th><th>Subtotal</th><th>Ação</th></tr></thead>
+            <tbody>
+            <tr th:each="item : ${itens}">
+                <td><strong th:text="${item.peca.nome}">Peça</strong><br><small th:text="${item.peca.marca}">Marca</small></td>
+                <td>R$ <span th:text="${#numbers.formatDecimal(item.precoUnitario, 1, 'POINT', 2, 'COMMA')}">0,00</span></td>
+                <td>
+                    <form class="acoes-item" th:action="@{/carrinho/alterar/{id}(id=${item.peca.id})}" method="post">
+                        <label class="sr-only" th:for="|quantidade-${item.peca.id}|">Quantidade de <span th:text="${item.peca.nome}">peça</span></label>
+                        <input type="number" min="0" th:max="${item.peca.estoque}" name="quantidade" th:id="|quantidade-${item.peca.id}|" th:value="${item.quantidade}" required>
+                        <button class="botao botao-secundario" type="submit">Atualizar</button>
+                    </form>
+                </td>
+                <td>R$ <span th:text="${#numbers.formatDecimal(item.subtotal, 1, 'POINT', 2, 'COMMA')}">0,00</span></td>
+                <td><form th:action="@{/carrinho/remover/{id}(id=${item.peca.id})}" method="post"><button class="botao botao-secundario" type="submit">Remover</button></form></td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="total-carrinho">Total: R$ <span th:text="${#numbers.formatDecimal(total, 1, 'POINT', 2, 'COMMA')}">0,00</span></p>
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <a class="botao botao-secundario" th:href="@{/pecas}">Continuar comprando</a>
+            <form th:action="@{/carrinho/finalizar}" method="post"><button class="botao botao-principal" type="submit">Finalizar compra</button></form>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{fragmentos :: rodape}"></footer>
+</body>
+</html>
