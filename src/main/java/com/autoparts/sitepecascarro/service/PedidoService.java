@@ -25,6 +25,17 @@ public class PedidoService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    public void adicionarAoCarrinho(Long pecaId) {
+        Peca peca = pecaRepository.findById(pecaId)
+                .orElseThrow(() -> new IllegalArgumentException("Peça não encontrada."));
+
+        if (peca.getEstoque() == null || peca.getEstoque() <= 0) {
+            throw new IllegalArgumentException("Essa peça está sem estoque.");
+        }
+
+        carrinho.adicionar(pecaId);
+    }
+
     public List<ItemPedido> itensDoCarrinho() {
         List<ItemPedido> itens = new ArrayList<>();
         for (Map.Entry<Long, Integer> entrada : carrinho.getItens().entrySet()) {

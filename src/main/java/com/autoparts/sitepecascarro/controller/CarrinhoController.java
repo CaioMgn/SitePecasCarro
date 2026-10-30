@@ -4,7 +4,6 @@ import com.autoparts.sitepecascarro.entity.Pedido;
 import com.autoparts.sitepecascarro.entity.ItemPedido;
 import com.autoparts.sitepecascarro.service.Carrinho;
 import com.autoparts.sitepecascarro.service.PedidoService;
-import com.autoparts.sitepecascarro.repository.PecaRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +16,10 @@ import java.util.List;
 public class CarrinhoController {
     private final Carrinho carrinho;
     private final PedidoService pedidoService;
-    private final PecaRepository pecaRepository;
 
-    public CarrinhoController(Carrinho carrinho, PedidoService pedidoService, PecaRepository pecaRepository) {
+    public CarrinhoController(Carrinho carrinho, PedidoService pedidoService) {
         this.carrinho = carrinho;
         this.pedidoService = pedidoService;
-        this.pecaRepository = pecaRepository;
     }
 
     @GetMapping
@@ -35,14 +32,11 @@ public class CarrinhoController {
 
     @PostMapping("/adicionar/{id}")
     public String adicionar(@PathVariable Long id, RedirectAttributes redirect) {
-        var peca = pecaRepository.findById(id);
-        if (peca.isEmpty()) {
-            redirect.addFlashAttribute("erro", "Peça não encontrada.");
-        } else if (peca.get().getEstoque() == null || peca.get().getEstoque() <= 0) {
-            redirect.addFlashAttribute("erro", "Essa peça está sem estoque.");
-        } else {
-            carrinho.adicionar(id);
+        try {
+            pedidoService.adicionarAoCarrinho(id);
             redirect.addFlashAttribute("sucesso", "Peça adicionada ao carrinho.");
+        } catch (IllegalArgumentException e) {
+            redirect.addFlashAttribute("erro", e.getMessage());
         }
         return "redirect:/carrinho";
     }
