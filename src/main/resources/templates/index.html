@@ -28,9 +28,9 @@
                 </h1>
 
                 <form th:action="@{/pecas}" method="get" role="search" class="barra-pesquisa">
-                <img th:src="@{/imagens/LupaCentral.png}" alt="">
-                <label for="busca-home" class="sr-only">Pesquisar peças</label>
-                <input type="search" id="busca-home" name="busca" placeholder="Pesquisar peças...">
+                    <img th:src="@{/imagens/LupaCentral.png}" alt="">
+                    <label for="busca-home" class="sr-only">Pesquisar peças</label>
+                    <input type="search" id="busca-home" name="busca" placeholder="Pesquisar peças...">
                 </form>
 
             </div>
@@ -39,35 +39,35 @@
 
 
         <!-- CATEGORIAS -->
-<section class="secao">
+        <section class="secao">
 
-    <h2>Categorias</h2>
+            <h2>Categorias</h2>
 
-    <div class="categorias">
+            <div class="categorias">
 
-        <a class="categoria" th:href="@{/pecas(categoria='Motor')}">
-            <img th:src="@{/imagens/DesenhoMotor.png}" alt="">
-            <h3>Motor</h3>
-        </a>
+                <a class="categoria" th:href="@{/pecas(categoria='Motor')}">
+                    <img th:src="@{/imagens/DesenhoMotor.png}" alt="">
+                    <h3>Motor</h3>
+                </a>
 
-        <a class="categoria" th:href="@{/pecas(categoria='Freios')}">
-            <img th:src="@{/imagens/DesenhoFreios.png}" alt="">
-            <h3>Freios</h3>
-        </a>
+                <a class="categoria" th:href="@{/pecas(categoria='Freios')}">
+                    <img th:src="@{/imagens/DesenhoFreios.png}" alt="">
+                    <h3>Freios</h3>
+                </a>
 
-        <a class="categoria" th:href="@{/pecas(categoria='Suspensão')}">
-            <img th:src="@{/imagens/DesenhoSuspensao.png}" alt="">
-            <h3>Suspensão</h3>
-        </a>
+                <a class="categoria" th:href="@{/pecas(categoria='Suspensao')}">
+                    <img th:src="@{/imagens/DesenhoSuspensao.png}" alt="">
+                    <h3>Suspensão</h3>
+                </a>
 
-        <a class="categoria" th:href="@{/pecas(categoria='Elétrica')}">
-            <img th:src="@{/imagens/DesenhoEletrica.png}" alt="">
-            <h3>Elétrica</h3>
-        </a>
+                <a class="categoria" th:href="@{/pecas(categoria='Eletrica')}">
+                    <img th:src="@{/imagens/DesenhoEletrica.png}" alt="">
+                    <h3>Elétrica</h3>
+                </a>
 
-    </div>
+            </div>
 
-</section>
+        </section>
 
 
         <!-- PEÇAS EM DESTAQUE -->
@@ -77,14 +77,15 @@
 
             <div class="produtos">
 
-                <div class="produto" th:each="peca : ${pecas}">
+                <a class="produto" th:each="peca : ${pecas}" th:href="@{/pecas/detalhe/{id}(id=${peca.id})}">
 
                     <div class="etiqueta" th:text="${peca.categoria}">
                         Peça
                     </div>
 
                     <div class="produto-imagem">
-                        <span>Imagem</span>
+                        <img th:if="${!#strings.isEmpty(peca.imagem)}" th:src="@{${peca.imagem}}" th:alt="${peca.nome}">
+                        <span th:if="${#strings.isEmpty(peca.imagem)}">Imagem</span>
                     </div>
 
                     <h3 th:text="${peca.nome}">
@@ -92,18 +93,18 @@
                     </h3>
 
                     <p class="preco">
-                        R$ <span th:text="${peca.preco}">0,00</span>
+                        R$ <span th:text="${#numbers.formatDecimal(peca.preco, 1, 'POINT', 2, 'COMMA')}">0,00</span>
                     </p>
 
-                </div>
+                </a>
 
             </div>
 
         </section>
     </main>
 
+    <!-- RODAPÉ -->
     <footer th:replace="~{fragmentos :: rodape}"></footer>
-    
 
 </body>
 
