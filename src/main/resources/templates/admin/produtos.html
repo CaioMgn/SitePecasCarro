@@ -21,27 +21,33 @@
 
         <main id="conteudo" class="painel-admin">
 
-            <h1>Gerenciar Produtos</h1>
-
-            <p>Consulte e gerencie as peças cadastradas na AutoParts.</p>
-
-            <div class="admin-produtos">
-
-                <div class="admin-produtos-cabecalho">
-                    <h2>Peças cadastradas</h2>
-
-                    <a th:href="@{/pecas/nova}" class="painel-botao">
-                        + Nova peça
-                    </a>
+            <div class="produtos-cabecalho">
+                <div>
+                    <h1 class="produtos-titulo">Gerenciar produtos</h1>
+                    <p class="produtos-descricao">
+                        Consulte e gerencie as peças cadastradas na AutoParts.
+                    </p>
                 </div>
 
-                <p th:if="${#lists.isEmpty(pecas)}">
-                    Nenhuma peça cadastrada.
-                </p>
+                <a th:href="@{/pecas/nova}" class="botao-novo-produto">
+                    + Nova peça
+                </a>
+            </div>
 
-                <div class="tabela-container" th:unless="${#lists.isEmpty(pecas)}">
+            <section class="produtos-secao">
 
-                    <table>
+                <h2>Peças cadastradas</h2>
+
+                <div th:if="${#lists.isEmpty(pecas)}" class="produto-vazio">
+                    <p>Nenhuma peça cadastrada.</p>
+                    <p>Cadastre uma nova peça para ela aparecer nesta lista.</p>
+                </div>
+
+                <div class="tabela-produtos-container"
+                     th:unless="${#lists.isEmpty(pecas)}">
+
+                    <table class="tabela-produtos">
+
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -56,12 +62,16 @@
 
                         <tbody>
                             <tr th:each="peca : ${pecas}">
-                                <td th:text="${peca.id}">1</td>
+
+                                <td class="produto-id" th:text="${peca.id}">1</td>
+
                                 <td th:text="${peca.nome}">Alternador</td>
+
                                 <td th:text="${peca.categoria}">Elétrica</td>
+
                                 <td th:text="${peca.marca}">Bosch</td>
 
-                                <td>
+                                <td class="produto-preco">
                                     R$
                                     <span th:text="${#numbers.formatDecimal(peca.preco, 1, 'POINT', 2, 'COMMA')}">
                                         0,00
@@ -71,24 +81,35 @@
                                 <td th:text="${peca.estoque}">10</td>
 
                                 <td>
-                                    <a th:href="@{/pecas/editar/{id}(id=${peca.id})}">Editar</a>
+                                    <div class="produto-acoes">
 
-                                    <form th:action="@{/pecas/excluir/{id}(id=${peca.id})}"
-                                        method="post"
-                                        style="display: inline;">
-                                        <button type="submit"
-                                                onclick="return confirm('Tem certeza de que deseja excluir esta peça?')">
-                                            Excluir
-                                        </button>
-                                    </form>
+                                        <a th:href="@{/pecas/editar/{id}(id=${peca.id})}"
+                                           class="botao-editar-produto">
+                                            Editar
+                                        </a>
+
+                                        <form th:action="@{/pecas/excluir/{id}(id=${peca.id})}"
+                                              method="post">
+
+                                            <button type="submit"
+                                                    class="botao-excluir-produto"
+                                                    onclick="return confirm('Tem certeza de que deseja excluir esta peça?')">
+                                                Excluir
+                                            </button>
+
+                                        </form>
+
+                                    </div>
                                 </td>
+
                             </tr>
                         </tbody>
+
                     </table>
 
                 </div>
 
-            </div>
+            </section>
 
         </main>
 

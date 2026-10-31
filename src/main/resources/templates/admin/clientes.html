@@ -6,30 +6,69 @@
     <title>Clientes - Painel AutoParts</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
-    <!-- ENCAIXE 2: quando o Pedro subir o menu, trocar este <nav> por:
-         <nav th:replace="~{admin/menu :: menu('clientes')}"></nav> -->
-    <nav class="menu-admin" aria-label="Menu do painel">
-        <a th:href="@{/pecas}">Voltar ao catálogo</a>
-    </nav>
+    <header th:replace="~{fragmentos :: cabecalho}"></header>
 
-    <main>
-        <h1>Clientes</h1>
-        <p>Histórico resumido dos compradores da loja.</p>
+    <div class="layout-admin">
+        <nav th:replace="~{admin/menu :: menu(ativo='clientes')}"></nav>
 
-        <p th:if="${#lists.isEmpty(clientes)}">Nenhum cliente cadastrado ainda.</p>
+        <main class="painel-admin">
+            <section class="secao clientes-secao">
 
-        <ul class="lista-clientes" th:unless="${#lists.isEmpty(clientes)}">
-            <li th:each="cliente : ${clientes}">
-                <article class="card-cliente">
-                    <h2 th:text="${cliente.nome}">Nome do cliente</h2>
-                    <p th:text="${cliente.email}">email@exemplo.com</p>
-                    <p th:if="${cliente.clienteDesde > 0}"
-                       th:text="|Cliente desde ${cliente.clienteDesde}|">Cliente desde 2026</p>
-                    <p th:text="|Pedidos: ${cliente.pedidos}|">Pedidos: 0</p>
-                </article>
-            </li>
-        </ul>
-    </main>
+                <header class="clientes-cabecalho">
+                    <h1>Clientes</h1>
+                    <p>Histórico resumido dos compradores da loja.</p>
+                </header>
+
+                <p class="clientes-vazio"
+                   th:if="${#lists.isEmpty(clientes)}">
+                    Nenhum cliente cadastrado ainda.
+                </p>
+
+                <div class="clientes-tabela-container"
+                     th:unless="${#lists.isEmpty(clientes)}">
+
+                    <table class="clientes-tabela">
+                        <thead>
+                            <tr>
+                                <th>Cliente</th>
+                                <th>E-mail</th>
+                                <th>Desde</th>
+                                <th>Pedidos</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="cliente : ${clientes}">
+                                <td class="cliente-nome"
+                                    th:text="${cliente.nome}">
+                                    Nome do cliente
+                                </td>
+
+                                <td class="cliente-email"
+                                    th:text="${cliente.email}">
+                                    email@exemplo.com
+                                </td>
+
+                                <td th:text="${cliente.clienteDesde > 0
+                                    ? cliente.clienteDesde : '-'}">
+                                    2026
+                                </td>
+
+                                <td>
+                                    <span class="cliente-total-pedidos"
+                                          th:text="${cliente.pedidos}">
+                                        0
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </section>
+        </main>
+    </div>
 </body>
 </html>

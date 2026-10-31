@@ -1,35 +1,93 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <body>
-<nav th:fragment="menu(ativo)"
-        class="menu-admin"
-        aria-label="Menu administrativo">
+
+<nav class="menu-admin"
+     th:fragment="menu(ativo)"
+     aria-label="Menu administrativo"
+     id="menuAdmin">
+
+    <div class="menu-admin-topo">
+        <a class="menu-admin-logo"
+           th:href="@{/admin}"
+           aria-label="Ir para o painel administrativo">
+            <span class="menu-admin-texto">AutoParts</span>
+        </a>
+
+        <button type="button"
+                class="menu-admin-toggle"
+                id="alternarMenu"
+                aria-label="Recolher menu"
+                aria-controls="menuAdmin"
+                aria-expanded="true">
+            <span aria-hidden="true" class="menu-admin-seta">‹</span>
+        </button>
+    </div>
+
+    <div class="menu-admin-navegacao">
+        <span class="menu-admin-legenda menu-admin-texto">
+            ADMINISTRAÇÃO
+        </span>
 
         <a th:href="@{/admin}"
-        th:aria-current="${ativo == 'painel'} ? 'page'">
-            Painel
+           class="menu-admin-link"
+           th:classappend="${ativo == 'painel'} ? ' ativo' : ''"
+           th:aria-current="${ativo == 'painel'} ? 'page' : null"
+           title="Painel">
+            <span class="menu-admin-icone" aria-hidden="true">⌂</span>
+            <span class="menu-admin-texto">Painel</span>
         </a>
 
         <a th:href="@{/admin/produtos}"
-        th:aria-current="${ativo == 'produtos'} ? 'page'">
-            Produtos
+           class="menu-admin-link"
+           th:classappend="${ativo == 'produtos'} ? ' ativo' : ''"
+           th:aria-current="${ativo == 'produtos'} ? 'page' : null"
+           title="Produtos">
+            <span class="menu-admin-icone" aria-hidden="true">▤</span>
+            <span class="menu-admin-texto">Produtos</span>
         </a>
 
         <a th:href="@{/admin/pedidos}"
-        th:aria-current="${ativo == 'pedidos'} ? 'page'">
-            Pedidos
+           class="menu-admin-link"
+           th:classappend="${ativo == 'pedidos'} ? ' ativo' : ''"
+           th:aria-current="${ativo == 'pedidos'} ? 'page' : null"
+           title="Pedidos">
+            <span class="menu-admin-icone" aria-hidden="true">▣</span>
+            <span class="menu-admin-texto">Pedidos</span>
         </a>
 
         <a th:href="@{/admin/clientes}"
-        th:aria-current="${ativo == 'clientes'} ? 'page'">
-            Clientes
+           class="menu-admin-link"
+           th:classappend="${ativo == 'clientes'} ? ' ativo' : ''"
+           th:aria-current="${ativo == 'clientes'} ? 'page' : null"
+           title="Clientes">
+            <span class="menu-admin-icone" aria-hidden="true">♙</span>
+            <span class="menu-admin-texto">Clientes</span>
         </a>
 
         <a th:href="@{/admin/relatorios}"
-        th:aria-current="${ativo == 'relatorios'} ? 'page'">
-            Relatórios
+           class="menu-admin-link"
+           th:classappend="${ativo == 'relatorios'} ? ' ativo' : ''"
+           th:aria-current="${ativo == 'relatorios'} ? 'page' : null"
+           title="Relatórios">
+            <span class="menu-admin-icone" aria-hidden="true">▥</span>
+            <span class="menu-admin-texto">Relatórios</span>
         </a>
+    </div>
 
-    </nav>
+    <div class="menu-admin-rodape">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit"
+                    class="menu-admin-link menu-admin-sair"
+                    title="Sair">
+                <span class="menu-admin-icone" aria-hidden="true">↪</span>
+                <span class="menu-admin-texto">Sair</span>
+            </button>
+        </form>
+    </div>
+
+    <script th:src="@{/js/menu-admin.js}" defer></script>
+</nav>
+
 </body>
 </html>

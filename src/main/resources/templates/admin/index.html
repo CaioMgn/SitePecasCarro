@@ -118,11 +118,37 @@
             <section class="painel-cards">
 
                 <article class="painel-card">
-                    <h2>Clientes</h2>
+                    <h2>Peças cadastradas</h2>
 
                     <p>
-                        Consulte os clientes cadastrados e acompanhe
-                        as informações dos usuários da plataforma.
+                        Total de peças disponíveis no cadastro:
+                        <strong th:text="${totalPecas}">0</strong>
+                    </p>
+
+                    <a th:href="@{/admin/produtos}" class="painel-botao">
+                        Gerenciar peças
+                    </a>
+                </article>
+
+                <article class="painel-card pedidos">
+                    <h2>Pedidos pendentes</h2>
+
+                    <p>
+                        Pedidos aguardando processamento:
+                        <strong th:text="${pedidosPendentes}">0</strong>
+                    </p>
+
+                    <a th:href="@{/admin/pedidos}" class="painel-botao">
+                        Acessar pedidos
+                    </a>
+                </article>
+
+                <article class="painel-card">
+                    <h2>Clientes ativos</h2>
+
+                    <p>
+                        Total de clientes cadastrados:
+                        <strong th:text="${clientesAtivos}">0</strong>
                     </p>
 
                     <a th:href="@{/admin/clientes}" class="painel-botao">
@@ -130,16 +156,16 @@
                     </a>
                 </article>
 
-                <article class="painel-card pedidos">
-                    <h2>Pedidos</h2>
+                <article class="painel-card">
+                    <h2>Faturamento</h2>
 
                     <p>
-                        Consulte os pedidos realizados e gerencie
-                        os status das compras.
+                        Valor total dos pedidos concluídos:
+                        <strong th:text="${#numbers.formatCurrency(faturamento)}">R$ 0,00</strong>
                     </p>
 
                     <a th:href="@{/admin/pedidos}" class="painel-botao">
-                        Acessar pedidos
+                        Consultar pedidos
                     </a>
                 </article>
 

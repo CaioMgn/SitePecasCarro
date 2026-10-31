@@ -1,111 +1,218 @@
 <!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Peça</title>
+
+    <title th:text="${peca.id == null} ? 'Cadastro de Peça - AutoParts' : 'Editar Peça - AutoParts'">
+        Cadastro de Peça - AutoParts
+    </title>
+
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
 
     <header th:replace="~{fragmentos :: cabecalho}"></header>
 
-    <main id="conteudo">
-        <h1 th:text="${peca.id == null} ? 'Cadastro de Peças' : 'Editar Peça'">
-            Cadastro de Peças
-        </h1>
+    <main id="conteudo" class="formulario-pagina">
 
-        <form th:action="@{/pecas/salvar}" th:object="${peca}" method="post">
+        <div class="formulario-cabecalho">
+            <a th:href="@{/admin/produtos}" class="formulario-voltar">
+                ← Voltar para produtos
+            </a>
 
-            <!-- Exibe os erros de validação -->
-            <div th:if="${#fields.hasErrors('*')}" class="mensagens-erro">
-                <p>Não foi possível salvar a peça. Corrija os seguintes problemas:</p>
-                <ul>
-                    <li th:each="erro : ${#fields.errors('*')}"
-                        th:text="${erro}">
-                        Mensagem de erro
-                    </li>
-                </ul>
+            <h1 th:text="${peca.id == null} ? 'Cadastrar peça' : 'Editar peça'">
+                Cadastrar peça
+            </h1>
+
+            <p>
+                Preencha os dados abaixo para cadastrar ou atualizar uma peça.
+            </p>
+        </div>
+
+        <section class="formulario-card">
+
+            <div class="formulario-card-titulo">
+                <h2>Informações da peça</h2>
+                <p>Os dados cadastrados serão utilizados no catálogo da AutoParts.</p>
             </div>
 
-            <input type="hidden" th:field="*{id}">
+            <form th:action="@{/pecas/salvar}"
+                  th:object="${peca}"
+                  method="post"
+                  class="formulario-peca">
 
-            <label for="nome">Nome da Peça</label>
-            <input type="text" id="nome"
-                th:field="*{nome}"
-                th:errorclass="campo-invalido"
-                required>
-            <p th:if="${#fields.hasErrors('nome')}"
-            th:errors="*{nome}"
-            class="erro-campo"></p>
+                <div th:if="${#fields.hasErrors('*')}" class="mensagens-erro" role="alert">
+                    <p>Não foi possível salvar a peça. Corrija os seguintes problemas:</p>
+                    <ul>
+                        <li th:each="erro : ${#fields.errors('*')}"
+                            th:text="${erro}">
+                            Mensagem de erro
+                        </li>
+                    </ul>
+                </div>
 
-            <label for="categoria">Categoria</label>
-            <input type="text" id="categoria"
-                th:field="*{categoria}"
-                th:errorclass="campo-invalido"
-                required>
-            <p th:if="${#fields.hasErrors('categoria')}"
-            th:errors="*{categoria}"
-            class="erro-campo"></p>
+                <input type="hidden" th:field="*{id}">
 
-            <label for="preco">Preço</label>
-            <input type="number" step="0.01" min="0.01"
-                id="preco"
-                th:field="*{preco}"
-                th:errorclass="campo-invalido"
-                required>
-            <p th:if="${#fields.hasErrors('preco')}"
-            th:errors="*{preco}"
-            class="erro-campo"></p>
+                <div class="formulario-campos">
 
-            <label for="descricao">Descrição</label>
-            <textarea id="descricao"
-                    th:field="*{descricao}"
-                    th:errorclass="campo-invalido"
-                    required></textarea>
-            <p th:if="${#fields.hasErrors('descricao')}"
-            th:errors="*{descricao}"
-            class="erro-campo"></p>
+                    <div class="campo-formulario">
+                        <label for="nome">Nome da peça</label>
+                        <input type="text"
+                               id="nome"
+                               th:field="*{nome}"
+                               th:errorclass="campo-invalido"
+                               th:attr="aria-invalid=${#fields.hasErrors('nome')}"
+                               aria-describedby="erro-nome"
+                               required>
 
-            <label for="marca">Marca</label>
-            <input type="text" id="marca"
-                th:field="*{marca}"
-                th:errorclass="campo-invalido"
-                required>
-            <p th:if="${#fields.hasErrors('marca')}"
-            th:errors="*{marca}"
-            class="erro-campo"></p>
+                        <p id="erro-nome"
+                           th:if="${#fields.hasErrors('nome')}"
+                           th:errors="*{nome}"
+                           class="erro-campo"></p>
+                    </div>
 
-            <label for="compatibilidade">Compatibilidade</label>
-            <input type="text" id="compatibilidade"
-                th:field="*{compatibilidade}"
-                th:errorclass="campo-invalido"
-                required>
-            <p th:if="${#fields.hasErrors('compatibilidade')}"
-            th:errors="*{compatibilidade}"
-            class="erro-campo"></p>
+                    <div class="campo-formulario">
+                        <label for="categoria">Categoria</label>
+                        <select id="categoria"
+                                th:field="*{categoria}"
+                                th:errorclass="campo-invalido"
+                                th:attr="aria-invalid=${#fields.hasErrors('categoria')}"
+                                aria-describedby="erro-categoria"
+                                required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="Motor">Motor</option>
+                            <option value="Freios">Freio</option>
+                            <option value="Suspensão">Suspensão</option>
+                            <option value="Elétrica">Elétrica</option>
+                        </select>
 
-            <label for="estoque">Estoque</label>
-            <input type="number" min="0"
-                id="estoque"
-                th:field="*{estoque}"
-                th:errorclass="campo-invalido"
-                required>
-            <p th:if="${#fields.hasErrors('estoque')}"
-            th:errors="*{estoque}"
-            class="erro-campo"></p>
+                        <p id="erro-categoria"
+                           th:if="${#fields.hasErrors('categoria')}"
+                           th:errors="*{categoria}"
+                           class="erro-campo"></p>
+                    </div>
 
-            <label for="imagem">Imagem (caminho, ex.: /imagens/pecas/alternador.png)</label>
-            <input type="text" id="imagem"
-                th:field="*{imagem}"
-                th:errorclass="campo-invalido"
-                required>
-            <p th:if="${#fields.hasErrors('imagem')}"
-            th:errors="*{imagem}"
-            class="erro-campo"></p>
+                    <div class="campo-formulario">
+                        <label for="preco">Preço (R$)</label>
+                        <input type="number"
+                               id="preco"
+                               step="0.01"
+                               min="0.01"
+                               th:field="*{preco}"
+                               th:errorclass="campo-invalido"
+                               th:attr="aria-invalid=${#fields.hasErrors('preco')}"
+                               aria-describedby="erro-preco"
+                               placeholder="Ex.: 149.90"
+                               required>
 
-            <button type="submit">Salvar</button>
-        </form>
+                        <p id="erro-preco"
+                           th:if="${#fields.hasErrors('preco')}"
+                           th:errors="*{preco}"
+                           class="erro-campo"></p>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="marca">Marca</label>
+                        <input type="text"
+                               id="marca"
+                               th:field="*{marca}"
+                               th:errorclass="campo-invalido"
+                               th:attr="aria-invalid=${#fields.hasErrors('marca')}"
+                               aria-describedby="erro-marca"
+                               required>
+
+                        <p id="erro-marca"
+                           th:if="${#fields.hasErrors('marca')}"
+                           th:errors="*{marca}"
+                           class="erro-campo"></p>
+                    </div>
+
+                    <div class="campo-formulario campo-largura-total">
+                        <label for="descricao">Descrição</label>
+                        <textarea id="descricao"
+                                  th:field="*{descricao}"
+                                  th:errorclass="campo-invalido"
+                                  th:attr="aria-invalid=${#fields.hasErrors('descricao')}"
+                                  aria-describedby="erro-descricao"
+                                  rows="4"
+                                  required></textarea>
+
+                        <p id="erro-descricao"
+                           th:if="${#fields.hasErrors('descricao')}"
+                           th:errors="*{descricao}"
+                           class="erro-campo"></p>
+                    </div>
+
+                    <div class="campo-formulario campo-largura-total">
+                        <label for="compatibilidade">Compatibilidade</label>
+                        <input type="text"
+                               id="compatibilidade"
+                               th:field="*{compatibilidade}"
+                               th:errorclass="campo-invalido"
+                               th:attr="aria-invalid=${#fields.hasErrors('compatibilidade')}"
+                               aria-describedby="erro-compatibilidade"
+                               placeholder="Ex.: Volkswagen Gol 1.6, 2018–2022"
+                               required>
+
+                        <p id="erro-compatibilidade"
+                           th:if="${#fields.hasErrors('compatibilidade')}"
+                           th:errors="*{compatibilidade}"
+                           class="erro-campo"></p>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="estoque">Quantidade em estoque</label>
+                        <input type="number"
+                               id="estoque"
+                               min="0"
+                               th:field="*{estoque}"
+                               th:errorclass="campo-invalido"
+                               th:attr="aria-invalid=${#fields.hasErrors('estoque')}"
+                               aria-describedby="erro-estoque"
+                               required>
+
+                        <p id="erro-estoque"
+                           th:if="${#fields.hasErrors('estoque')}"
+                           th:errors="*{estoque}"
+                           class="erro-campo"></p>
+                    </div>
+
+                    <div class="campo-formulario">
+                        <label for="imagem">Caminho da imagem</label>
+                        <input type="text"
+                               id="imagem"
+                               th:field="*{imagem}"
+                               th:errorclass="campo-invalido"
+                               th:attr="aria-invalid=${#fields.hasErrors('imagem')}"
+                               aria-describedby="erro-imagem"
+                               placeholder="/imagens/pecas/alternador.png"
+                               required>
+
+                        <p id="erro-imagem"
+                           th:if="${#fields.hasErrors('imagem')}"
+                           th:errors="*{imagem}"
+                           class="erro-campo"></p>
+                    </div>
+
+                </div>
+
+                <div class="formulario-acoes">
+                    <a th:href="@{/admin/produtos}" class="botao-cancelar-formulario">
+                        Cancelar
+                    </a>
+
+                    <button type="submit" class="botao-salvar-formulario">
+                        Salvar peça
+                    </button>
+                </div>
+
+            </form>
+
+        </section>
+
     </main>
 
     <footer th:replace="~{fragmentos :: rodape}"></footer>
