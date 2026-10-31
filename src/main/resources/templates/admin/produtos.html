@@ -34,6 +34,9 @@
                 </a>
             </div>
 
+            <p class="alerta-erro" role="alert" th:if="${erro}" th:text="${erro}">Erro</p>
+            <p class="alerta-info" role="status" th:if="${sucesso}" th:text="${sucesso}">Sucesso</p>
+
             <section class="produtos-secao">
 
                 <h2>Peças cadastradas</h2>

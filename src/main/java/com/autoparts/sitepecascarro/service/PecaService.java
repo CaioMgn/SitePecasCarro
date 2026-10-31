@@ -2,6 +2,8 @@ package com.autoparts.sitepecascarro.service;
 
 import com.autoparts.sitepecascarro.entity.Peca;
 import com.autoparts.sitepecascarro.repository.PecaRepository;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,8 +61,13 @@ public class PecaService {
         return pecaRepository.findById(id).orElse(null);
     }
 
-    public void excluir(Long id){
-        //excluir peca
-        pecaRepository.deleteById(id);
+    public void excluir(Long id) {
+        try {
+            pecaRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            // RN-19: peça que está em pedido não pode sumir do histórico
+            throw new IllegalArgumentException(
+                    "Esta peça está em pedidos e não pode ser excluída. Zere o estoque para tirá-la de venda.");
+        }
     }
 }

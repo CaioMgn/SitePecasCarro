@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable; //RECEBE OS DADOS
 import org.springframework.web.bind.annotation.PostMapping; // PEGAR O FORMULÁRIO PREENCHIDO
 import org.springframework.web.bind.annotation.RequestParam; // PEGAR O ID DA URL
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.autoparts.sitepecascarro.entity.Peca; // PEGAR OS FILTROS DA URL
 import com.autoparts.sitepecascarro.service.PecaService;
@@ -83,8 +84,13 @@ public class PecaController {
     }
     
     @PostMapping("/pecas/excluir/{id}")
-    public String excluirPeca(@PathVariable Long id) {
-        pecaService.excluir(id);
+    public String excluirPeca(@PathVariable Long id, RedirectAttributes redirect) {
+        try {
+            pecaService.excluir(id);
+            redirect.addFlashAttribute("sucesso", "Peça excluída.");
+        } catch (IllegalArgumentException e) {
+            redirect.addFlashAttribute("erro", e.getMessage());
+        }
         return "redirect:/admin/produtos";
     }
     

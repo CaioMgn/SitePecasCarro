@@ -803,6 +803,27 @@ a.produto {
     }
 }
 
+/* =========================
+   MENSAGENS
+========================= */
+
+.alerta-erro,
+.alerta-info {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin: 16px 0;
+}
+
+.alerta-erro {
+    background-color: #fff0f0;
+    color: #991b1b;
+}
+
+.alerta-info {
+    background-color: #e7f8eb;
+    color: #14532d;
+}
+
 
 /* =========================
    RESPONSIVIDADE
