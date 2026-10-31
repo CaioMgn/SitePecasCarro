@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="menu(ativo)"
+        class="menu-admin"
+        aria-label="Menu administrativo">
+
+        <a th:href="@{/admin}"
+        th:aria-current="${ativo == 'painel'} ? 'page'">
+            Painel
+        </a>
+
+        <a th:href="@{/admin/produtos}"
+        th:aria-current="${ativo == 'produtos'} ? 'page'">
+            Produtos
+        </a>
+
+        <a th:href="@{/admin/pedidos}"
+        th:aria-current="${ativo == 'pedidos'} ? 'page'">
+            Pedidos
+        </a>
+
+        <a th:href="@{/admin/clientes}"
+        th:aria-current="${ativo == 'clientes'} ? 'page'">
+            Clientes
+        </a>
+
+        <a th:href="@{/admin/relatorios}"
+        th:aria-current="${ativo == 'relatorios'} ? 'page'">
+            Relatórios
+        </a>
+
+    </nav>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gerenciar Produtos - AutoParts</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragmentos :: cabecalho}"></header>
+
+    <div class="layout-admin">
+
+        <nav th:replace="~{admin/menu :: menu('produtos')}"></nav>
+
+        <main id="conteudo" class="painel-admin">
+
+            <h1>Gerenciar Produtos</h1>
+
+            <p>Consulte e gerencie as peças cadastradas na AutoParts.</p>
+
+            <div class="admin-produtos">
+
+                <div class="admin-produtos-cabecalho">
+                    <h2>Peças cadastradas</h2>
+
+                    <a th:href="@{/pecas/nova}" class="painel-botao">
+                        + Nova peça
+                    </a>
+                </div>
+
+                <p th:if="${#lists.isEmpty(pecas)}">
+                    Nenhuma peça cadastrada.
+                </p>
+
+                <div class="tabela-container" th:unless="${#lists.isEmpty(pecas)}">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Categoria</th>
+                                <th>Marca</th>
+                                <th>Preço</th>
+                                <th>Estoque</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="peca : ${pecas}">
+                                <td th:text="${peca.id}">1</td>
+                                <td th:text="${peca.nome}">Alternador</td>
+                                <td th:text="${peca.categoria}">Elétrica</td>
+                                <td th:text="${peca.marca}">Bosch</td>
+
+                                <td>
+                                    R$
+                                    <span th:text="${#numbers.formatDecimal(peca.preco, 1, 'POINT', 2, 'COMMA')}">
+                                        0,00
+                                    </span>
+                                </td>
+
+                                <td th:text="${peca.estoque}">10</td>
+
+                                <td>
+                                    <a th:href="@{/pecas/editar/{id}(id=${peca.id})}">Editar</a>
+
+                                    <form th:action="@{/pecas/excluir/{id}(id=${peca.id})}"
+                                        method="post"
+                                        style="display: inline;">
+                                        <button type="submit"
+                                                onclick="return confirm('Tem certeza de que deseja excluir esta peça?')">
+                                            Excluir
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <footer th:replace="~{fragmentos :: rodape}"></footer>
+
+</body>
+</html>

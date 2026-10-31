@@ -433,6 +433,44 @@ a.produto {
     margin-top: 40px;
 }
 
+/* Layout administrativo */
+
+.layout-admin {
+    display: flex;
+    align-items: stretch;
+    min-height: 65vh;
+}
+
+.menu-admin {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    width: 240px;
+    flex-shrink: 0;
+
+    padding: 30px 16px;
+    background-color: #031a3b;
+}
+
+.menu-admin a {
+    display: block;
+    padding: 12px 16px;
+
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+}
+
+.menu-admin a:hover,
+.menu-admin a[aria-current="page"] {
+    background-color: #087cf0;
+}
+
+.painel-admin {
+    flex: 1;
+    min-width: 0;
+}
 
 /* =========================
    ACESSIBILIDADE
@@ -559,4 +597,20 @@ a.produto {
         align-items: stretch;
     }
 
+}
+
+/* Ajustes do painel administrativo para telas menores */
+@media (max-width: 768px) {
+    .layout-admin {
+        flex-direction: column;
+    }
+
+    .menu-admin {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .menu-admin a {
+        padding: 10px 12px;
+    }
 }

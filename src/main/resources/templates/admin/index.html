@@ -103,45 +103,51 @@
 
     <header th:replace="~{fragmentos :: cabecalho}"></header>
 
-    <main id="conteudo" class="painel-admin">
+    <div class="layout-admin">
 
-        <h1 class="painel-titulo">Painel Administrativo</h1>
+        <nav th:replace="~{admin/menu :: menu('painel')}"></nav>
 
-        <p class="painel-descricao">
-            Gerencie os clientes e pedidos da AutoParts.
-        </p>
+        <main id="conteudo" class="painel-admin">
 
-        <section class="painel-cards">
+            <h1 class="painel-titulo">Painel Administrativo</h1>
 
-            <article class="painel-card">
-                <h2>Clientes</h2>
+            <p class="painel-descricao">
+                Gerencie os clientes e pedidos da AutoParts.
+            </p>
 
-                <p>
-                    Consulte os clientes cadastrados e acompanhe
-                    as informações dos usuários da plataforma.
-                </p>
+            <section class="painel-cards">
 
-                <a th:href="@{/admin/clientes}" class="painel-botao">
-                    Acessar clientes
-                </a>
-            </article>
+                <article class="painel-card">
+                    <h2>Clientes</h2>
 
-            <article class="painel-card pedidos">
-                <h2>Pedidos</h2>
+                    <p>
+                        Consulte os clientes cadastrados e acompanhe
+                        as informações dos usuários da plataforma.
+                    </p>
 
-                <p>
-                    Consulte os pedidos realizados e gerencie
-                    os status das compras.
-                </p>
+                    <a th:href="@{/admin/clientes}" class="painel-botao">
+                        Acessar clientes
+                    </a>
+                </article>
 
-                <a th:href="@{/admin/pedidos}" class="painel-botao">
-                    Acessar pedidos
-                </a>
-            </article>
+                <article class="painel-card pedidos">
+                    <h2>Pedidos</h2>
 
-        </section>
+                    <p>
+                        Consulte os pedidos realizados e gerencie
+                        os status das compras.
+                    </p>
 
-    </main>
+                    <a th:href="@{/admin/pedidos}" class="painel-botao">
+                        Acessar pedidos
+                    </a>
+                </article>
+
+            </section>
+
+        </main>
+    
+    </div>
 
     <footer th:replace="~{fragmentos :: rodape}"></footer>
 

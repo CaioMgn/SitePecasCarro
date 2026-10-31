@@ -11,40 +11,104 @@
     <header th:replace="~{fragmentos :: cabecalho}"></header>
 
     <main id="conteudo">
-        <h1>Cadastro de Peças</h1>
-        <!--pra onde o formulário envia os dados quando você clica em Salvar, conexao entre tela e método, envio POST-->
+        <h1 th:text="${peca.id == null} ? 'Cadastro de Peças' : 'Editar Peça'">
+            Cadastro de Peças
+        </h1>
+
         <form th:action="@{/pecas/salvar}" th:object="${peca}" method="post">
+
+            <!-- Exibe os erros de validação -->
+            <div th:if="${#fields.hasErrors('*')}" class="mensagens-erro">
+                <p>Não foi possível salvar a peça. Corrija os seguintes problemas:</p>
+                <ul>
+                    <li th:each="erro : ${#fields.errors('*')}"
+                        th:text="${erro}">
+                        Mensagem de erro
+                    </li>
+                </ul>
+            </div>
+
             <input type="hidden" th:field="*{id}">
 
             <label for="nome">Nome da Peça</label>
-            <input type="text" id="nome" th:field="*{nome}" required>
+            <input type="text" id="nome"
+                th:field="*{nome}"
+                th:errorclass="campo-invalido"
+                required>
+            <p th:if="${#fields.hasErrors('nome')}"
+            th:errors="*{nome}"
+            class="erro-campo"></p>
 
             <label for="categoria">Categoria</label>
-            <input type="text" id="categoria" th:field="*{categoria}" required>
+            <input type="text" id="categoria"
+                th:field="*{categoria}"
+                th:errorclass="campo-invalido"
+                required>
+            <p th:if="${#fields.hasErrors('categoria')}"
+            th:errors="*{categoria}"
+            class="erro-campo"></p>
 
             <label for="preco">Preço</label>
-            <input type="number" step="0.01" id="preco" th:field="*{preco}" required>
+            <input type="number" step="0.01" min="0.01"
+                id="preco"
+                th:field="*{preco}"
+                th:errorclass="campo-invalido"
+                required>
+            <p th:if="${#fields.hasErrors('preco')}"
+            th:errors="*{preco}"
+            class="erro-campo"></p>
 
             <label for="descricao">Descrição</label>
-            <textarea id="descricao" th:field="*{descricao}" required></textarea>
+            <textarea id="descricao"
+                    th:field="*{descricao}"
+                    th:errorclass="campo-invalido"
+                    required></textarea>
+            <p th:if="${#fields.hasErrors('descricao')}"
+            th:errors="*{descricao}"
+            class="erro-campo"></p>
 
             <label for="marca">Marca</label>
-            <input type="text" id="marca" th:field="*{marca}">
+            <input type="text" id="marca"
+                th:field="*{marca}"
+                th:errorclass="campo-invalido"
+                required>
+            <p th:if="${#fields.hasErrors('marca')}"
+            th:errors="*{marca}"
+            class="erro-campo"></p>
 
             <label for="compatibilidade">Compatibilidade</label>
-            <input type="text" id="compatibilidade" th:field="*{compatibilidade}">
+            <input type="text" id="compatibilidade"
+                th:field="*{compatibilidade}"
+                th:errorclass="campo-invalido"
+                required>
+            <p th:if="${#fields.hasErrors('compatibilidade')}"
+            th:errors="*{compatibilidade}"
+            class="erro-campo"></p>
 
             <label for="estoque">Estoque</label>
-            <input type="number" min="0" id="estoque" th:field="*{estoque}">
+            <input type="number" min="0"
+                id="estoque"
+                th:field="*{estoque}"
+                th:errorclass="campo-invalido"
+                required>
+            <p th:if="${#fields.hasErrors('estoque')}"
+            th:errors="*{estoque}"
+            class="erro-campo"></p>
 
             <label for="imagem">Imagem (caminho, ex.: /imagens/pecas/alternador.png)</label>
-            <input type="text" id="imagem" th:field="*{imagem}">
-            
+            <input type="text" id="imagem"
+                th:field="*{imagem}"
+                th:errorclass="campo-invalido"
+                required>
+            <p th:if="${#fields.hasErrors('imagem')}"
+            th:errors="*{imagem}"
+            class="erro-campo"></p>
+
             <button type="submit">Salvar</button>
         </form>
     </main>
 
     <footer th:replace="~{fragmentos :: rodape}"></footer>
-</body>
 
+</body>
 </html>

@@ -1,15 +1,18 @@
 package com.autoparts.sitepecascarro.controller;
 
-import com.autoparts.sitepecascarro.service.PecaService;
-import com.autoparts.sitepecascarro.entity.Peca;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping; //RECEBE OS DADOS
-import org.springframework.web.bind.annotation.ModelAttribute; // PEGAR O FORMULÁRIO PREENCHIDO
-import org.springframework.web.bind.annotation.PathVariable; // PEGAR O ID DA URL
-import org.springframework.web.bind.annotation.RequestParam; // PEGAR OS FILTROS DA URL
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable; //RECEBE OS DADOS
+import org.springframework.web.bind.annotation.PostMapping; // PEGAR O FORMULÁRIO PREENCHIDO
+import org.springframework.web.bind.annotation.RequestParam; // PEGAR O ID DA URL
 
+import com.autoparts.sitepecascarro.entity.Peca; // PEGAR OS FILTROS DA URL
+import com.autoparts.sitepecascarro.service.PecaService;
+
+import jakarta.validation.Valid;
 
 
 //Ele recebe a requisição do navegador, 
@@ -62,11 +65,16 @@ public class PecaController {
     
     //salvar o formulário
     @PostMapping("/pecas/salvar")
-    public String salvar(@ModelAttribute Peca peca) {
+    public String salvar(@Valid @ModelAttribute Peca peca,
+                        BindingResult resultado) {
+
+        if (resultado.hasErrors()) {
+            return "pecas/formulario";
+        }
+
         pecaService.salvar(peca);
-        return "redirect:/pecas";
+        return "redirect:/admin/produtos";
     }
-    
     //mostrar o formulário preenchido
     @GetMapping("/pecas/editar/{id}")
     public String editarPeca(@PathVariable Long id, Model model) {
@@ -74,10 +82,10 @@ public class PecaController {
         return "pecas/formulario";
     }
     
-    @GetMapping("/pecas/excluir/{id}")
+    @PostMapping("/pecas/excluir/{id}")
     public String excluirPeca(@PathVariable Long id) {
         pecaService.excluir(id);
-        return "redirect:/pecas";
+        return "redirect:/admin/produtos";
     }
     
 

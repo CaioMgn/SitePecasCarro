@@ -6,45 +6,53 @@
     <title>Pedidos - Painel AutoParts</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <style>
-        .pedidos-container{max-width:1200px;margin:35px auto;padding:0 20px}.mensagem{padding:12px 16px;border-radius:8px;margin:14px 0}.sucesso{background:#e7f8eb;color:#14532d}.erro{background:#fff0f0;color:#991b1b}.tabela-pedidos{width:100%;border-collapse:collapse;margin-top:22px}.tabela-pedidos th,.tabela-pedidos td{padding:12px;text-align:left;border-bottom:1px solid #ddd}.tabela-pedidos select{padding:8px;max-width:100%}.botao{padding:9px 12px;border:0;border-radius:6px;background:#c2410c;color:white;cursor:pointer}.menu-admin{display:flex;gap:18px;flex-wrap:wrap;padding:18px 24px;background:#09244a}.menu-admin a{color:white;text-decoration:none;align-self:center}.menu-admin form{margin:0;align-self:center}
-        @media(max-width:750px){.tabela-pedidos,.tabela-pedidos tbody,.tabela-pedidos tr,.tabela-pedidos td{display:block;width:100%;box-sizing:border-box}.tabela-pedidos thead{display:none}.tabela-pedidos tr{border:1px solid #ddd;border-radius:8px;margin:14px 0;padding:10px}.tabela-pedidos td{border:0;padding:7px}.tabela-pedidos td:before{font-weight:bold;display:block;margin-bottom:3px}.tabela-pedidos td:nth-child(1):before{content:'Pedido'}.tabela-pedidos td:nth-child(2):before{content:'Cliente'}.tabela-pedidos td:nth-child(3):before{content:'Data'}.tabela-pedidos td:nth-child(4):before{content:'Total'}.tabela-pedidos td:nth-child(5):before{content:'Status / atualizar'}}
+        .pedidos-container{max-width:1200px;margin:35px auto;padding:0 20px}
+        .mensagem{padding:12px 16px;border-radius:8px;margin:14px 0}
+        .sucesso{background:#e7f8eb;color:#14532d}.erro{background:#fff0f0;color:#991b1b}
+        .tabela-pedidos{width:100%;border-collapse:collapse;margin-top:22px}
+        .tabela-pedidos th,.tabela-pedidos td{padding:12px;text-align:left;border-bottom:1px solid #ddd}
+        .tabela-pedidos select{padding:8px;max-width:100%}
+        .botao{padding:9px 12px;border:0;border-radius:6px;background:#c2410c;color:white;cursor:pointer}
+        @media(max-width:750px){
+            .tabela-pedidos,.tabela-pedidos tbody,.tabela-pedidos tr,.tabela-pedidos td{display:block;width:100%;box-sizing:border-box}.tabela-pedidos thead{display:none}.tabela-pedidos tr{border:1px solid #ddd;border-radius:8px;margin:14px 0;padding:10px}.tabela-pedidos td{border:0;padding:7px}.tabela-pedidos td:before{font-weight:bold;display:block;margin-bottom:3px}.tabela-pedidos td:nth-child(1):before{content:'Pedido'}.tabela-pedidos td:nth-child(2):before{content:'Cliente'}.tabela-pedidos td:nth-child(3):before{content:'Data'}.tabela-pedidos td:nth-child(4):before{content:'Total'}.tabela-pedidos td:nth-child(5):before{content:'Status / atualizar'}}
     </style>
 </head>
 <body>
-<nav class="menu-admin" aria-label="Menu do painel">
-    <a th:href="@{/admin}">Painel</a>
-    <a th:href="@{/pecas}">Produtos</a>
-    <a th:href="@{/admin/pedidos}" aria-current="page">Pedidos</a>
-    <a th:href="@{/admin/clientes}">Clientes</a>
-    <a th:href="@{/pecas}">Voltar ao catálogo</a>
-    <form th:action="@{/logout}" method="post"><button class="botao" type="submit">Sair</button></form>
-</nav>
-<main id="conteudo" class="pedidos-container">
-    <h1>Pedidos</h1>
-    <p>Consulte as compras e atualize o andamento de cada pedido.</p>
-    <p class="mensagem sucesso" role="status" th:if="${sucesso}" th:text="${sucesso}"></p>
-    <p class="mensagem erro" role="alert" th:if="${erro}" th:text="${erro}"></p>
-    <p th:if="${#lists.isEmpty(pedidos)}">Nenhum pedido realizado ainda.</p>
-    <table class="tabela-pedidos" th:unless="${#lists.isEmpty(pedidos)}">
-        <thead><tr><th>Número</th><th>Cliente</th><th>Data</th><th>Valor</th><th>Status</th></tr></thead>
-        <tbody>
-        <tr th:each="pedido : ${pedidos}">
-            <td th:text="${pedido.numero}">PED-1001</td>
-            <td><span th:text="${pedido.cliente.nome}">Cliente</span><br><small th:text="${pedido.cliente.email}">cliente@email.com</small></td>
-            <td th:text="${pedido.data == null ? '-' : #temporals.format(pedido.data, 'dd/MM/yyyy HH:mm')}">30/10/2026</td>
-            <td>R$ <span th:text="${#numbers.formatDecimal(pedido.total, 1, 'POINT', 2, 'COMMA')}">0,00</span></td>
-            <td>
-                <form th:action="@{/admin/pedidos/{id}/status(id=${pedido.id})}" method="post">
-                    <label class="sr-only" th:for="|status-${pedido.id}|">Status do pedido <span th:text="${pedido.numero}">PED-1001</span></label>
-                    <select name="status" th:id="|status-${pedido.id}|">
-                        <option th:each="opcao : ${statusDisponiveis}" th:value="${opcao}" th:text="${opcao}" th:selected="${opcao == pedido.status}">PENDENTE</option>
-                    </select>
-                    <button class="botao" type="submit">Salvar</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</main>
+<header th:replace="~{fragmentos :: cabecalho}"></header>
+
+<div class="layout-admin">
+
+    <nav th:replace="~{admin/menu :: menu('pedidos')}"></nav>
+
+    <main id="conteudo" class="pedidos-container">
+        <h1>Pedidos</h1>
+        <p>Consulte as compras e atualize o andamento de cada pedido.</p>
+        <p class="mensagem sucesso" role="status" th:if="${sucesso}" th:text="${sucesso}"></p>
+        <p class="mensagem erro" role="alert" th:if="${erro}" th:text="${erro}"></p>
+        <p th:if="${#lists.isEmpty(pedidos)}">Nenhum pedido realizado ainda.</p>
+        <table class="tabela-pedidos" th:unless="${#lists.isEmpty(pedidos)}">
+            <thead><tr><th>Número</th><th>Cliente</th><th>Data</th><th>Valor</th><th>Status</th></tr></thead>
+            <tbody>
+            <tr th:each="pedido : ${pedidos}">
+                <td th:text="${pedido.numero}">PED-1001</td>
+                <td><span th:text="${pedido.cliente.nome}">Cliente</span><br><small th:text="${pedido.cliente.email}">cliente@email.com</small></td>
+                <td th:text="${pedido.data == null ? '-' : #temporals.format(pedido.data, 'dd/MM/yyyy HH:mm')}">30/10/2026</td>
+                <td>R$ <span th:text="${#numbers.formatDecimal(pedido.total, 1, 'POINT', 2, 'COMMA')}">0,00</span></td>
+                <td>
+                    <form th:action="@{/admin/pedidos/{id}/status(id=${pedido.id})}" method="post">
+                        <label class="sr-only" th:for="|status-${pedido.id}|">Status do pedido <span th:text="${pedido.numero}">PED-1001</span></label>
+                        <select name="status" th:id="|status-${pedido.id}|">
+                            <option th:each="opcao : ${statusDisponiveis}" th:value="${opcao}" th:text="${opcao}" th:selected="${opcao == pedido.status}">PENDENTE</option>
+                        </select>
+                        <button class="botao" type="submit">Salvar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
+</div>
+<footer th:replace="~{fragmentos :: rodape}"></footer>
 </body>
+</html>
 </html>
