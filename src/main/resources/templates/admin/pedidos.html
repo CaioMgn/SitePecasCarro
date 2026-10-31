@@ -42,7 +42,7 @@
                     <form th:action="@{/admin/pedidos/{id}/status(id=${pedido.id})}" method="post">
                         <label class="sr-only" th:for="|status-${pedido.id}|">Status do pedido <span th:text="${pedido.numero}">PED-1001</span></label>
                         <select name="status" th:id="|status-${pedido.id}|">
-                            <option th:each="opcao : ${statusDisponiveis}" th:value="${opcao}" th:text="${opcao}" th:selected="${opcao == pedido.status}">PENDENTE</option>
+                            <option th:each="opcao : ${statusDisponiveis}" th:value="${opcao.name()}" th:text="${opcao.descricao}" th:selected="${opcao == pedido.status}">Pendente</option>
                         </select>
                         <button class="botao" type="submit">Salvar</button>
                     </form>

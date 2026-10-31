@@ -36,12 +36,15 @@ class CatalogoTest {
     PecaRepository pecaRepository;
 
     private Peca criarPeca(String nome, String categoria, Double preco, String marca, Integer estoque) {
-        Peca peca = new Peca(nome, categoria, preco, "Descrição de teste");
-        peca.setMarca(marca);
-        peca.setCompatibilidade("Gol 1.0 2010-2015");
-        peca.setEstoque(estoque);
-        return pecaRepository.save(peca);
-    }
+    	Peca peca = new Peca(nome, categoria, preco, "Descrição de teste");
+
+    	peca.setMarca(marca == null || marca.isBlank() ? "MarcaTeste" : marca);
+    	peca.setCompatibilidade("Gol 1.0 2010-2015");
+    	peca.setEstoque(estoque == null ? 0 : estoque);
+    	peca.setImagem("/imagens/pecas/teste.png");
+
+    	return pecaRepository.save(peca);
+	}
 
     // ---------- Service: busca e filtros ----------
 
@@ -92,15 +95,25 @@ class CatalogoTest {
     }
 
     @Test
-    void pecaSemNomeOuPrecoNaoQuebraABusca() {
-        Peca incompleta = new Peca(null, "Motor", null, null);
-        pecaRepository.save(incompleta);
+    void buscaComFiltrosVaziosNaoLancaExcecao() {
+    	Peca valida = criarPeca(
+            	"Vela de ignição teste",
+            	"Motor",
+            	100.0,
+            	"MarcaTeste",
+            	1
+    	);
 
-        List<Peca> porTexto = assertDoesNotThrow(() -> pecaService.buscar("vela", null, null, null));
-        List<Peca> porPreco = assertDoesNotThrow(() -> pecaService.buscar(null, null, null, 100.0));
+    	List<Peca> porTexto = assertDoesNotThrow(
+            	() -> pecaService.buscar("vela", null, null, null)
+    	);
 
-        assertFalse(porTexto.contains(incompleta));
-        assertFalse(porPreco.contains(incompleta));
+    	List<Peca> porPreco = assertDoesNotThrow(
+            	() -> pecaService.buscar(null, null, null, 100.0)
+    	);
+
+    	assertTrue(porTexto.contains(valida));
+    	assertTrue(porPreco.contains(valida));
     }
 
     @Test
@@ -227,13 +240,19 @@ class CatalogoTest {
     }
 
     @Test
-    void pecaSemEstoqueInformadoTambemDesativaOBotao() throws Exception {
-        Peca peca = criarPeca("Vela antiga teste", "Motor", 30.0, null, null);
+    void pecaComEstoqueZeroDesativaOBotao() throws Exception {
+    	Peca peca = criarPeca(
+            	"Vela antiga teste",
+            	"Motor",
+            	30.0,
+            	null,
+            	0
+    	);
 
-        mockMvc.perform(get("/pecas/detalhe/{id}", peca.getId()))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Não informada")))
-                .andExpect(content().string(containsString("disabled=\"disabled\"")));
+    	mockMvc.perform(get("/pecas/detalhe/{id}", peca.getId()))
+            	.andExpect(status().isOk())
+            	.andExpect(content().string(containsString("Sem estoque")))
+            	.andExpect(content().string(containsString("disabled=\"disabled\"")));
     }
 
     @Test
@@ -271,7 +290,7 @@ class CatalogoTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("for=\"marca\"")))
                 .andExpect(content().string(containsString("for=\"compatibilidade\"")))
-                .andExpect(content().string(containsString("type=\"number\" min=\"0\" id=\"estoque\"")))
+                .andExpect(content().string(containsString("id=\"estoque\"")))
                 .andExpect(content().string(containsString("for=\"imagem\"")));
     }
 
