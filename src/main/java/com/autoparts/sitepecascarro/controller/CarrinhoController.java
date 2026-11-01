@@ -3,6 +3,7 @@ package com.autoparts.sitepecascarro.controller;
 import com.autoparts.sitepecascarro.entity.Pedido;
 import com.autoparts.sitepecascarro.entity.ItemPedido;
 import com.autoparts.sitepecascarro.service.Carrinho;
+import com.autoparts.sitepecascarro.service.NotaFiscalService;
 import com.autoparts.sitepecascarro.service.PedidoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +17,13 @@ import java.util.List;
 public class CarrinhoController {
     private final Carrinho carrinho;
     private final PedidoService pedidoService;
+    private final NotaFiscalService notaFiscalService;
 
-    public CarrinhoController(Carrinho carrinho, PedidoService pedidoService) {
+    public CarrinhoController(Carrinho carrinho, PedidoService pedidoService,
+                              NotaFiscalService notaFiscalService) {
         this.carrinho = carrinho;
         this.pedidoService = pedidoService;
+        this.notaFiscalService = notaFiscalService;
     }
 
     @GetMapping
@@ -57,7 +61,13 @@ public class CarrinhoController {
     public String finalizar(Principal principal, RedirectAttributes redirect) {
         try {
             Pedido pedido = pedidoService.finalizar(principal.getName());
-            redirect.addFlashAttribute("sucesso", "Pedido " + pedido.getNumero() + " confirmado!");
+            // O pedido já está gravado; se o e-mail falhar, a venda continua valendo.
+            boolean notaEnviada = notaFiscalService.enviar(pedido);
+            String mensagem = "Pedido " + pedido.getNumero() + " confirmado!";
+            if (notaEnviada) {
+                mensagem += " A nota fiscal foi enviada para o seu e-mail.";
+            }
+            redirect.addFlashAttribute("sucesso", mensagem);
         } catch (IllegalArgumentException e) {
             redirect.addFlashAttribute("erro", e.getMessage());
         }

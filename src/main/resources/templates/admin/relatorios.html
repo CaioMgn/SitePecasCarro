@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Relatórios - AutoParts</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+    <header th:replace="~{fragmentos :: cabecalho}"></header>
+
+    <div class="layout-admin">
+
+        <nav th:replace="~{admin/menu :: menu('relatorios')}"></nav>
+
+        <main id="conteudo" class="painel-admin">
+
+            <div class="produtos-cabecalho">
+                <div>
+                    <h1 class="produtos-titulo">Relatórios</h1>
+                    <p class="produtos-descricao">
+                        Vendas e estoque da AutoParts, calculados a partir dos pedidos feitos na loja.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Vendas por período -->
+            <section class="produtos-secao" aria-labelledby="titulo-vendas-mes">
+                <h2 id="titulo-vendas-mes">Vendas por mês</h2>
+
+                <div th:if="${#lists.isEmpty(vendasPorMes)}" class="produto-vazio">
+                    <p>Nenhum pedido feito ainda.</p>
+                </div>
+
+                <div class="tabela-produtos-container" th:unless="${#lists.isEmpty(vendasPorMes)}">
+                    <table class="tabela-produtos">
+                        <thead>
+                            <tr>
+                                <th scope="col">Mês</th>
+                                <th scope="col">Pedidos</th>
+                                <th scope="col">Total vendido</th>
+                                <th scope="col">Já concluído</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="linha : ${vendasPorMes}">
+                                <td th:text="${linha.mes()}">outubro de 2026</td>
+                                <td th:text="${linha.pedidos()}">3</td>
+                                <td class="produto-preco"
+                                    th:text="'R$ ' + ${#numbers.formatDecimal(linha.total(), 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                                <td th:text="'R$ ' + ${#numbers.formatDecimal(linha.concluido(), 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Vendas por categoria -->
+            <section class="produtos-secao" aria-labelledby="titulo-vendas-categoria">
+                <h2 id="titulo-vendas-categoria">Vendas por categoria</h2>
+
+                <div th:if="${#lists.isEmpty(vendasPorCategoria)}" class="produto-vazio">
+                    <p>Nenhuma peça vendida ainda.</p>
+                </div>
+
+                <div class="tabela-produtos-container" th:unless="${#lists.isEmpty(vendasPorCategoria)}">
+                    <table class="tabela-produtos">
+                        <thead>
+                            <tr>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Unidades vendidas</th>
+                                <th scope="col">Receita</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="linha : ${vendasPorCategoria}">
+                                <td th:text="${linha.categoria()}">Freios</td>
+                                <td th:text="${linha.unidades()}">10</td>
+                                <td class="produto-preco"
+                                    th:text="'R$ ' + ${#numbers.formatDecimal(linha.receita(), 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Peças mais vendidas -->
+            <section class="produtos-secao" aria-labelledby="titulo-mais-vendidas">
+                <h2 id="titulo-mais-vendidas">Peças mais vendidas</h2>
+
+                <div th:if="${#lists.isEmpty(maisVendidas)}" class="produto-vazio">
+                    <p>Nenhuma peça vendida ainda.</p>
+                </div>
+
+                <div class="tabela-produtos-container" th:unless="${#lists.isEmpty(maisVendidas)}">
+                    <table class="tabela-produtos">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Peça</th>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Unidades vendidas</th>
+                                <th scope="col">Receita</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="linha, posicao : ${maisVendidas}">
+                                <td class="produto-id" th:text="${posicao.count}">1</td>
+                                <td th:text="${linha.nome()}">Pastilha de freio</td>
+                                <td th:text="${linha.categoria()}">Freios</td>
+                                <td th:text="${linha.unidades()}">5</td>
+                                <td class="produto-preco"
+                                    th:text="'R$ ' + ${#numbers.formatDecimal(linha.receita(), 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Estoque por categoria -->
+            <section class="produtos-secao" aria-labelledby="titulo-estoque-categoria">
+                <h2 id="titulo-estoque-categoria">Estoque por categoria</h2>
+
+                <div th:if="${#maps.isEmpty(estoquePorCategoria)}" class="produto-vazio">
+                    <p>Nenhuma peça cadastrada.</p>
+                </div>
+
+                <div class="tabela-produtos-container" th:unless="${#maps.isEmpty(estoquePorCategoria)}">
+                    <table class="tabela-produtos">
+                        <thead>
+                            <tr>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Unidades em estoque</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="linha : ${estoquePorCategoria}">
+                                <td th:text="${linha.key}">Motor</td>
+                                <td th:text="${linha.value}">40</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Estoque baixo -->
+            <section class="produtos-secao" aria-labelledby="titulo-estoque-baixo">
+                <h2 id="titulo-estoque-baixo">Estoque baixo</h2>
+                <p class="produtos-descricao"
+                   th:text="'Peças com ' + ${limiteEstoqueBaixo} + ' unidades ou menos.'">Peças com 5 unidades ou menos.</p>
+
+                <div th:if="${#lists.isEmpty(estoqueBaixo)}" class="produto-vazio">
+                    <p>Nenhuma peça com estoque baixo.</p>
+                </div>
+
+                <div class="tabela-produtos-container" th:unless="${#lists.isEmpty(estoqueBaixo)}">
+                    <table class="tabela-produtos">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Peça</th>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Estoque</th>
+                                <th scope="col">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="peca : ${estoqueBaixo}">
+                                <td class="produto-id" th:text="${peca.id}">1</td>
+                                <td th:text="${peca.nome}">Alternador</td>
+                                <td th:text="${peca.categoria}">Elétrica</td>
+                                <td th:text="${peca.estoque == 0} ? 'Esgotado' : ${peca.estoque}">2</td>
+                                <td>
+                                    <a th:href="@{/pecas/editar/{id}(id=${peca.id})}"
+                                       class="botao-editar-produto">Repor</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <footer th:replace="~{fragmentos :: rodape}"></footer>
+
+</body>
+</html>
