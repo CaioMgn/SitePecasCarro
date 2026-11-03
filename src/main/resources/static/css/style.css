@@ -1496,3 +1496,157 @@ a.produto {
         width: 100%;
     }
 }
+
+/* =========================
+   LOGIN E CADASTRO
+========================= */
+
+.pagina-login {
+    min-height: calc(100vh - 96px - 64px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    background: linear-gradient(180deg, #031a3b 0, #031a3b 220px, #f5f6f8 220px);
+}
+
+.card-login {
+    width: 100%;
+    max-width: 440px;
+    padding: 40px 36px;
+    background: #fff;
+    border-radius: 16px;
+    border-top: 5px solid #c2410c;
+    box-shadow: 0 12px 32px rgba(3, 26, 59, 0.16);
+}
+
+.card-login h1 {
+    font-size: 26px;
+    color: #031a3b;
+}
+
+.card-login .subtitulo-login {
+    margin: 6px 0 24px;
+    color: #475569;
+    font-size: 15px;
+}
+
+.card-login form {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-login label {
+    margin: 14px 0 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #09244a;
+}
+
+.card-login input {
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 15px;
+    color: #24364b;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.card-login input:focus {
+    outline: none;
+    border-color: #0563c4;
+    box-shadow: 0 0 0 3px rgba(5, 99, 196, 0.2);
+}
+
+/* Botão principal: #0563c4 com texto branco dá contraste 5.8:1 (WCAG AA) */
+.card-login button[type="submit"] {
+    margin-top: 24px;
+    min-height: 48px;
+    border: none;
+    border-radius: 8px;
+    background: #0563c4;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.card-login button[type="submit"]:hover {
+    background: #044a94;
+}
+
+/* Linha "ou" entre o formulário e o Google */
+.card-login .separador {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.card-login .separador::before,
+.card-login .separador::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.botao-google,
+.botao-secundario {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.botao-google {
+    border: 1px solid #cbd5e1;
+    background: #fff;
+    color: #1f2937;
+}
+
+.botao-google:hover {
+    background: #f1f5f9;
+}
+
+.botao-google svg {
+    width: 20px;
+    height: 20px;
+}
+
+.botao-secundario {
+    margin-top: 12px;
+    color: #0563c4;
+}
+
+.botao-secundario:hover {
+    background: #eff6ff;
+}
+
+.card-login .rodape-card {
+    margin-top: 20px;
+    text-align: center;
+    color: #475569;
+    font-size: 15px;
+}
+
+.card-login .rodape-card a {
+    color: #0563c4;
+    font-weight: 700;
+}
+
+@media (max-width: 480px) {
+    .card-login {
+        padding: 32px 22px;
+    }
+}
