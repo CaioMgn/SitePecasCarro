@@ -112,6 +112,65 @@ public class RelatorioService {
                 .toList();
     }
 
+    // ---------- Exportação em CSV ----------
+    // Separador ";" e vírgula nos decimais: é o formato que o Excel em português abre direto.
+    private static final Locale PT_BR = Locale.forLanguageTag("pt-BR");
+
+    public String exportarCsv() {
+        StringBuilder csv = new StringBuilder();
+
+        csv.append("Vendas por mês\n");
+        csv.append("Mês;Pedidos;Total (R$);Concluído (R$)\n");
+        for (VendaMes linha : vendasPorMes()) {
+            csv.append(campo(linha.mes())).append(';')
+               .append(linha.pedidos()).append(';')
+               .append(dinheiro(linha.total())).append(';')
+               .append(dinheiro(linha.concluido())).append('\n');
+        }
+
+        csv.append("\nVendas por categoria\n");
+        csv.append("Categoria;Unidades;Receita (R$)\n");
+        for (VendaCategoria linha : vendasPorCategoria()) {
+            csv.append(campo(linha.categoria())).append(';')
+               .append(linha.unidades()).append(';')
+               .append(dinheiro(linha.receita())).append('\n');
+        }
+
+        csv.append("\nPeças mais vendidas\n");
+        csv.append("Peça;Categoria;Unidades;Receita (R$)\n");
+        for (PecaVendida linha : pecasMaisVendidas(10)) {
+            csv.append(campo(linha.nome())).append(';')
+               .append(campo(linha.categoria())).append(';')
+               .append(linha.unidades()).append(';')
+               .append(dinheiro(linha.receita())).append('\n');
+        }
+
+        csv.append("\nEstoque baixo (até ").append(LIMITE_ESTOQUE_BAIXO).append(" unidades)\n");
+        csv.append("Peça;Categoria;Estoque\n");
+        for (Peca peca : estoqueBaixo()) {
+            csv.append(campo(peca.getNome())).append(';')
+               .append(campo(peca.getCategoria())).append(';')
+               .append(peca.getEstoque() == null ? 0 : peca.getEstoque()).append('\n');
+        }
+
+        return csv.toString();
+    }
+
+    private String dinheiro(double valor) {
+        return String.format(PT_BR, "%.2f", valor);
+    }
+
+    // Se o texto tiver ; aspas ou quebra de linha, ele vai entre aspas (regra do CSV)
+    private String campo(String texto) {
+        if (texto == null) {
+            return "";
+        }
+        if (texto.contains(";") || texto.contains("\"") || texto.contains("\n")) {
+            return "\"" + texto.replace("\"", "\"\"") + "\"";
+        }
+        return texto;
+    }
+
     private List<ItemPedido> todosOsItens() {
         return pedidoRepository.findAll().stream()
                 .flatMap(p -> p.getItens().stream())
