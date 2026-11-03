@@ -13,7 +13,7 @@
     <div class="layout-admin">
         <nav th:replace="~{admin/menu :: menu(ativo='clientes')}"></nav>
 
-        <main class="painel-admin">
+        <main id="conteudo" class="painel-admin">
             <section class="secao clientes-secao">
 
                 <header class="clientes-cabecalho">
@@ -70,5 +70,7 @@
             </section>
         </main>
     </div>
+
+    <footer th:replace="~{fragmentos :: rodape}"></footer>
 </body>
 </html>

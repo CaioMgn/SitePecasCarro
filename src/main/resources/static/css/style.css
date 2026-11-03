@@ -12,6 +12,25 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f5f6f8;
     color: #09244a;
+
+    /* Rodapé sempre no fim da tela: o body vira uma coluna
+       de altura mínima igual à da janela */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* O conteúdo do meio (main, ou o layout do painel admin) ocupa
+   todo o espaço que sobrar, empurrando o rodapé para baixo */
+body > main,
+body > .layout-admin {
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+/* No painel, o menu lateral encosta direto no rodapé, sem faixa vazia */
+.layout-admin + .rodape {
+    margin-top: 0;
 }
 
 
@@ -1522,7 +1541,6 @@ a.produto {
 ========================= */
 
 .pagina-login {
-    min-height: calc(100vh - 96px - 64px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1617,7 +1635,7 @@ a.produto {
 }
 
 .botao-google,
-.botao-secundario {
+.card-login .botao-secundario {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1644,12 +1662,12 @@ a.produto {
     height: 20px;
 }
 
-.botao-secundario {
+.card-login .botao-secundario {
     margin-top: 12px;
     color: #0563c4;
 }
 
-.botao-secundario:hover {
+.card-login .botao-secundario:hover {
     background: #eff6ff;
 }
 
