@@ -136,9 +136,14 @@
                                   th:field="*{descricao}"
                                   th:errorclass="campo-invalido"
                                   th:attr="aria-invalid=${#fields.hasErrors('descricao')}"
-                                  aria-describedby="erro-descricao"
+                                  aria-describedby="contador-descricao erro-descricao"
                                   rows="4"
+                                  maxlength="255"
                                   required></textarea>
+
+                        <p id="contador-descricao" class="contador-caracteres" aria-live="polite">
+                            Máximo de 255 caracteres.
+                        </p>
 
                         <p id="erro-descricao"
                            th:if="${#fields.hasErrors('descricao')}"
@@ -217,5 +222,18 @@
 
     <footer th:replace="~{fragmentos :: rodape}"></footer>
 
+    <script>
+        // Mostra quantos caracteres ainda cabem na descrição.
+        const campoDescricao = document.getElementById('descricao');
+        const contador = document.getElementById('contador-descricao');
+
+        function atualizarContador() {
+            const restantes = campoDescricao.maxLength - campoDescricao.value.length;
+            contador.textContent = restantes + ' de 255 caracteres restantes';
+        }
+
+        campoDescricao.addEventListener('input', atualizarContador);
+        atualizarContador();
+    </script>
 </body>
 </html>

@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 
 //representa uma tabela do banco.
@@ -33,7 +34,10 @@ public class Peca {
     @Positive(message = "O preço deve ser maior que zero")
     private Double preco;
 
+    // 255 é o tamanho da coluna no banco (VARCHAR padrão do JPA).
+    // Sem esse limite, um texto maior dava erro ao salvar.
     @NotBlank(message = "A descrição é obrigatória")
+    @Size(max = 255, message = "A descrição pode ter no máximo 255 caracteres")
     private String descricao;
 
     @NotBlank(message = "A marca é obrigatória")

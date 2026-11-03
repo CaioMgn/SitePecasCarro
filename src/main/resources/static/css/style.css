@@ -411,6 +411,20 @@ a.produto {
     margin: 20px 0;
 }
 
+/* Impede que uma coluna da grade estoure a largura da página */
+.detalhe-peca > * {
+    min-width: 0;
+}
+
+/* Descrição: quebra palavras longas e respeita as quebras de linha digitadas */
+.detalhe-peca .descricao-peca {
+    max-width: 60ch;
+    color: #475569;
+    line-height: 1.6;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
 .detalhe-peca dt {
     font-weight: bold;
 }
@@ -1369,6 +1383,12 @@ a.produto {
 
 .campo-formulario .campo-invalido:focus {
     box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.12);
+}
+
+.contador-caracteres {
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 13px;
 }
 
 .erro-campo {

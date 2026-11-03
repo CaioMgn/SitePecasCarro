@@ -28,7 +28,7 @@
                     R$ <span th:text="${#numbers.formatDecimal(peca.preco, 1, 'POINT', 2, 'COMMA')}">0,00</span>
                 </p>
 
-                <p th:text="${peca.descricao}">Descrição da peça</p>
+                <p class="descricao-peca" th:text="${peca.descricao}">Descrição da peça</p>
 
                 <dl>
                     <dt>Marca</dt>
