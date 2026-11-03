@@ -50,7 +50,7 @@ public class Peca {
     @PositiveOrZero(message = "O estoque não pode ser negativo")
     private Integer estoque;
 
-    @NotBlank(message = "O caminho da imagem é obrigatório")
+    // Opcional: sem imagem, o catálogo mostra o quadro "Imagem" no lugar da foto
     private String imagem; // caminho da foto, ex.: /imagens/pecas/alternador.png
 
     public Peca() {

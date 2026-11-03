@@ -186,15 +186,18 @@
                     </div>
 
                     <div class="campo-formulario">
-                        <label for="imagem">Caminho da imagem</label>
+                        <label for="imagem">Caminho da imagem (opcional)</label>
                         <input type="text"
                                id="imagem"
                                th:field="*{imagem}"
                                th:errorclass="campo-invalido"
                                th:attr="aria-invalid=${#fields.hasErrors('imagem')}"
-                               aria-describedby="erro-imagem"
-                               placeholder="/imagens/pecas/alternador.png"
-                               required>
+                               aria-describedby="dica-imagem erro-imagem"
+                               placeholder="/imagens/pecas/alternador.png">
+
+                        <p id="dica-imagem" class="contador-caracteres">
+                            Se deixar em branco, a peça aparece sem foto no catálogo.
+                        </p>
 
                         <p id="erro-imagem"
                            th:if="${#fields.hasErrors('imagem')}"
